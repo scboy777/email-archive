@@ -11,6 +11,61 @@
   .header h1 { font-size:1.6rem; font-weight:600; }
   .header p { font-size:0.9rem; color:#aaa; margin-top:4px; }
   .container { max-width:720px; margin:24px auto; padding:0 16px; }
+
+  /* Filters */
+  .toolbar { margin-bottom:16px; }
+  .filter-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .filter-btn {
+    padding:6px 14px; border:1px solid #ddd; border-radius:20px;
+    background:#fff; color:#555; font-size:0.78rem; font-weight:500;
+    cursor:pointer; transition:all .15s;
+  }
+  .filter-btn:hover { border-color:#4a6cf7; color:#4a6cf7; }
+  .filter-btn.active { background:#4a6cf7; color:#fff; border-color:#4a6cf7; }
+  .date-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+  .date-row label { font-size:0.8rem; color:#666; }
+  .date-row input[type="date"] {
+    padding:5px 10px; border:1px solid #ddd; border-radius:6px;
+    font-size:0.82rem; color:#333; background:#fff;
+  }
+  .date-row button {
+    padding:5px 12px; border:1px solid #ddd; border-radius:6px;
+    background:#fff; color:#888; font-size:0.78rem; cursor:pointer;
+  }
+  .date-row button:hover { border-color:#e74c3c; color:#e74c3c; }
+
+  /* Search */
+  .search-box {
+    margin-bottom:16px; position:relative;
+  }
+  .search-box input {
+    width:100%; padding:10px 16px 10px 38px; border:1px solid #ddd;
+    border-radius:8px; font-size:0.88rem; background:#fff; outline:none;
+    transition:border-color .15s;
+  }
+  .search-box input:focus { border-color:#4a6cf7; }
+  .search-box .search-icon {
+    position:absolute; left:12px; top:50%; transform:translateY(-50%);
+    color:#aaa; font-size:0.9rem; pointer-events:none;
+  }
+  .search-hint {
+    font-size:0.75rem; color:#999; margin-top:4px; padding-left:4px;
+  }
+  .search-results {
+    background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,.1);
+    margin-bottom:16px; display:none;
+  }
+  .search-results .sr-item {
+    padding:12px 16px; border-bottom:1px solid #f0f0f0; cursor:pointer;
+    transition:background .1s;
+  }
+  .search-results .sr-item:last-child { border-bottom:none; }
+  .search-results .sr-item:hover { background:#f8f9ff; }
+  .sr-meta { font-size:0.78rem; color:#888; margin-bottom:4px; }
+  .sr-snippet { font-size:0.84rem; color:#444; line-height:1.5; }
+  .sr-snippet mark { background:#fff3a8; padding:1px 2px; border-radius:2px; }
+
+  /* Table */
   table { width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.1); }
   th { background:#f8f8f8; text-align:left; padding:12px 16px; font-size:0.8rem; text-transform:uppercase; color:#666; border-bottom:2px solid #eee; }
   td { padding:12px 16px; border-bottom:1px solid #f0f0f0; font-size:0.9rem; }
@@ -30,8 +85,10 @@
   .badge-squeeze_watch { background:#fab1a0; color:#6b2020; }
   .badge-sector_rotation { background:#b2f2bb; color:#1b5e20; }
   .empty { text-align:center; padding:48px; color:#999; }
+  .count { font-size:0.78rem; color:#999; margin-bottom:8px; padding-left:2px; }
   @media (max-width:480px) {
     th, td { padding:10px 12px; font-size:0.82rem; }
+    .filter-btn { padding:5px 10px; font-size:0.72rem; }
   }
 </style>
 </head>
@@ -41,14 +98,152 @@
   <p>Daily market briefs &amp; reports</p>
 </div>
 <div class="container">
+  <!-- Filters -->
+  <div class="toolbar">
+    <div class="filter-row" id="typeFilters">
+      <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="recap">Nightcap</button>
+    <button class="filter-btn" data-filter="polymarket">Polymarket Pulse</button>
+    <button class="filter-btn" data-filter="morning">Morning Brief</button>
+    <button class="filter-btn" data-filter="lunch">MidMarket Update</button>
+    </div>
+    <div class="date-row">
+      <label>From</label>
+      <input type="date" id="dateFrom">
+      <label>To</label>
+      <input type="date" id="dateTo">
+      <button id="dateReset">Clear</button>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-box">
+    <span class="search-icon">&#128269;</span>
+    <input type="text" id="searchInput" placeholder="Search news content...">
+    <div class="search-hint">Search within news briefs (Morning, Lunch, Recap)</div>
+  </div>
+  <div class="search-results" id="searchResults"></div>
+
+  <!-- Email list -->
+  <div class="count" id="rowCount"></div>
   <table>
     <thead><tr><th>Date</th><th>Type</th><th></th></tr></thead>
-    <tbody>
-      <tr><td>2026-04-22</td><td><span class="badge badge-polymarket">Polymarket Pulse</span></td><td><a href="emails/2026-04-22_polymarket.html">View &rarr;</a></td></tr>
-      <tr><td>2026-04-22</td><td><span class="badge badge-morning">Morning Brief</span></td><td><a href="emails/2026-04-22_morning.html">View &rarr;</a></td></tr>
-      <tr><td>2026-04-22</td><td><span class="badge badge-lunch">MidMarket Update</span></td><td><a href="emails/2026-04-22_lunch.html">View &rarr;</a></td></tr>
-    </tbody>
+    <tbody id="emailBody"></tbody>
   </table>
 </div>
+
+<script>
+const ROWS = [{"date": "2026-04-22", "slug": "recap", "display": "Nightcap", "file": "2026-04-22_recap.html"}, {"date": "2026-04-22", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-22_polymarket.html"}, {"date": "2026-04-22", "slug": "morning", "display": "Morning Brief", "file": "2026-04-22_morning.html"}, {"date": "2026-04-22", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-22_lunch.html"}];
+let searchIndex = null;
+let activeType = "all";
+let dateFrom = "";
+let dateTo = "";
+
+// ── Render table ──
+function render() {
+  const tbody = document.getElementById("emailBody");
+  const filtered = ROWS.filter(r => {
+    if (activeType !== "all" && r.slug !== activeType) return false;
+    if (dateFrom && r.date < dateFrom) return false;
+    if (dateTo && r.date > dateTo) return false;
+    return true;
+  });
+  document.getElementById("rowCount").textContent =
+    filtered.length ? filtered.length + " emails" : "";
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr><td colspan="3" class="empty">No emails found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = filtered.map(r =>
+    '<tr><td>' + r.date + '</td>' +
+    '<td><span class="badge badge-' + r.slug + '">' + r.display + '</span></td>' +
+    '<td><a href="emails/' + r.file + '">View &rarr;</a></td></tr>'
+  ).join("");
+}
+
+// ── Type filter buttons ──
+document.getElementById("typeFilters").addEventListener("click", e => {
+  if (!e.target.classList.contains("filter-btn")) return;
+  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  e.target.classList.add("active");
+  activeType = e.target.dataset.filter;
+  render();
+});
+
+// ── Date range filter ──
+document.getElementById("dateFrom").addEventListener("change", e => {
+  dateFrom = e.target.value;
+  render();
+});
+document.getElementById("dateTo").addEventListener("change", e => {
+  dateTo = e.target.value;
+  render();
+});
+document.getElementById("dateReset").addEventListener("click", () => {
+  dateFrom = ""; dateTo = "";
+  document.getElementById("dateFrom").value = "";
+  document.getElementById("dateTo").value = "";
+  render();
+});
+
+// ── Search ──
+let searchTimer = null;
+document.getElementById("searchInput").addEventListener("input", e => {
+  clearTimeout(searchTimer);
+  const q = e.target.value.trim();
+  if (q.length < 2) {
+    document.getElementById("searchResults").style.display = "none";
+    return;
+  }
+  searchTimer = setTimeout(() => doSearch(q), 250);
+});
+
+async function doSearch(query) {
+  if (!searchIndex) {
+    try {
+      const res = await fetch("search_index.json");
+      searchIndex = await res.json();
+    } catch(e) {
+      document.getElementById("searchResults").innerHTML =
+        '<div class="sr-item"><div class="sr-snippet">Search index not available yet.</div></div>';
+      document.getElementById("searchResults").style.display = "block";
+      return;
+    }
+  }
+  const q = query.toLowerCase();
+  const results = searchIndex.filter(item => item.text.toLowerCase().includes(q)).slice(0, 15);
+  const container = document.getElementById("searchResults");
+  if (!results.length) {
+    container.innerHTML = '<div class="sr-item"><div class="sr-snippet">No results found.</div></div>';
+    container.style.display = "block";
+    return;
+  }
+  container.innerHTML = results.map(r => {
+    const idx = r.text.toLowerCase().indexOf(q);
+    const start = Math.max(0, idx - 60);
+    const end = Math.min(r.text.length, idx + query.length + 60);
+    let snippet = (start > 0 ? "..." : "") +
+      r.text.slice(start, idx) +
+      "<mark>" + r.text.slice(idx, idx + query.length) + "</mark>" +
+      r.text.slice(idx + query.length, end) +
+      (end < r.text.length ? "..." : "");
+    const display = {"morning": "Morning Brief", "lunch": "MidMarket Update", "recap": "Nightcap", "polymarket": "Polymarket Pulse", "short_list": "The Short List", "analyst": "Analyst Reports", "weekly": "Weekly Wrap", "monthly": "Monthly Wrap", "squeeze_watch": "Squeeze Watch", "sector_rotation": "Sector Rotation"};
+    const label = display[r.slug] || r.slug;
+    return '<a href="emails/' + r.file + '" class="sr-item" style="display:block;text-decoration:none;color:inherit;">' +
+      '<div class="sr-meta">' + r.date + ' &middot; ' + label + '</div>' +
+      '<div class="sr-snippet">' + snippet + '</div></a>';
+  }).join("");
+  container.style.display = "block";
+}
+
+// hide search results when clicking outside
+document.addEventListener("click", e => {
+  if (!e.target.closest(".search-box") && !e.target.closest(".search-results")) {
+    document.getElementById("searchResults").style.display = "none";
+  }
+});
+
+render();
+</script>
 </body>
 </html>
