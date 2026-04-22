@@ -84,6 +84,7 @@
   .badge-monthly { background:#dfe6e9; color:#2d3436; }
   .badge-squeeze_watch { background:#fab1a0; color:#6b2020; }
   .badge-sector_rotation { background:#b2f2bb; color:#1b5e20; }
+  .badge-block_trades { background:#ffd6a5; color:#7c3a00; }
   .empty { text-align:center; padding:48px; color:#999; }
   .count { font-size:0.78rem; color:#999; margin-bottom:8px; padding-left:2px; }
   @media (max-width:480px) {
@@ -106,6 +107,7 @@
     <button class="filter-btn" data-filter="polymarket">Polymarket Pulse</button>
     <button class="filter-btn" data-filter="morning">Morning Brief</button>
     <button class="filter-btn" data-filter="lunch">MidMarket Update</button>
+    <button class="filter-btn" data-filter="block_trades">Block Trades</button>
     </div>
     <div class="date-row">
       <label>From</label>
@@ -133,7 +135,7 @@
 </div>
 
 <script>
-const ROWS = [{"date": "2026-04-22", "slug": "recap", "display": "Nightcap", "file": "2026-04-22_recap.html"}, {"date": "2026-04-22", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-22_polymarket.html"}, {"date": "2026-04-22", "slug": "morning", "display": "Morning Brief", "file": "2026-04-22_morning.html"}, {"date": "2026-04-22", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-22_lunch.html"}];
+const ROWS = [{"date": "2026-04-22", "slug": "recap", "display": "Nightcap", "file": "2026-04-22_recap.html"}, {"date": "2026-04-22", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-22_polymarket.html"}, {"date": "2026-04-22", "slug": "morning", "display": "Morning Brief", "file": "2026-04-22_morning.html"}, {"date": "2026-04-22", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-22_lunch.html"}, {"date": "2026-04-22", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-22_block_trades.html"}];
 let searchIndex = null;
 let activeType = "all";
 let dateFrom = "";
@@ -227,7 +229,7 @@ async function doSearch(query) {
       "<mark>" + r.text.slice(idx, idx + query.length) + "</mark>" +
       r.text.slice(idx + query.length, end) +
       (end < r.text.length ? "..." : "");
-    const display = {"morning": "Morning Brief", "lunch": "MidMarket Update", "recap": "Nightcap", "polymarket": "Polymarket Pulse", "short_list": "The Short List", "analyst": "Analyst Reports", "weekly": "Weekly Wrap", "monthly": "Monthly Wrap", "squeeze_watch": "Squeeze Watch", "sector_rotation": "Sector Rotation"};
+    const display = {"morning": "Morning Brief", "lunch": "MidMarket Update", "recap": "Nightcap", "polymarket": "Polymarket Pulse", "short_list": "The Short List", "analyst": "Analyst Reports", "weekly": "Weekly Wrap", "monthly": "Monthly Wrap", "squeeze_watch": "Squeeze Watch", "sector_rotation": "Sector Rotation", "block_trades": "Block Trades"};
     const label = display[r.slug] || r.slug;
     return '<a href="emails/' + r.file + '" class="sr-item" style="display:block;text-decoration:none;color:inherit;">' +
       '<div class="sr-meta">' + r.date + ' &middot; ' + label + '</div>' +
