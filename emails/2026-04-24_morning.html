@@ -1,0 +1,941 @@
+    <html><head><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"><style type="text/css">
+  /* Prevent auto-scaling on mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  img  { max-width: 100%; height: auto; }
+  /* Ensure all tables respect container width */
+  table { max-width: 100%; }
+  /* Minimum tap target for links */
+  a { -webkit-tap-highlight-color: rgba(0,0,0,0.1); }
+
+  @media only screen and (max-width: 600px) {
+    /* ── Outer container ─────────────────────────────────────── */
+    .email-container {
+      padding: 8px !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* ── Header image ────────────────────────────────────────── */
+    .email-header-img {
+      border-radius: 6px !important;
+      max-width: 100% !important;
+    }
+
+    /* ── Title bars ──────────────────────────────────────────── */
+    .email-title {
+      font-size: 17px !important;
+      line-height: 1.3 !important;
+    }
+
+    /* ── Generic card ────────────────────────────────────────── */
+    .email-card {
+      padding: 10px 12px !important;
+      border-radius: 6px !important;
+    }
+
+    /* ── Section content blocks ──────────────────────────────── */
+    .email-section {
+      margin-top: 12px !important;
+    }
+
+    /* ── Chart image cards ───────────────────────────────────── */
+    .chart-card {
+      border-radius: 6px !important;
+    }
+    .chart-card-title {
+      padding: 8px 10px !important;
+      font-size: 13px !important;
+    }
+
+    /* ── Market summary table ────────────────────────────────── */
+    .mkt-wrap  { padding: 8px 10px !important; }
+    .mkt-tbl   { font-size: 12px !important; }
+    .mkt-asset { padding: 5px 6px !important; font-size: 12px !important; }
+    .mkt-data  { padding: 5px 5px !important; }
+    .mkt-period { display: none !important; }
+
+    /* ── Side-by-side investor flow → stacked ────────────────── */
+    .inv-flow-wrap, .fsig-wrap, .faccum-wrap {
+      display: block !important;
+    }
+    .inv-flow-buy, .inv-flow-sell,
+    .fsig-buy, .fsig-sell,
+    .faccum-buy, .faccum-sell {
+      display: block !important;
+      width: 100% !important;
+    }
+    .inv-flow-sell, .fsig-sell, .faccum-sell {
+      border-left: none !important;
+      border-top: 2px solid #e5e7eb !important;
+    }
+
+    /* ── Side-by-side stock movers / sector → stacked ────────── */
+    .stk-mv-wrap, .sect-wrap {
+      display: block !important;
+    }
+    .stk-mv-l, .stk-mv-r, .sect-l, .sect-r {
+      display: block !important;
+      width: 100% !important;
+    }
+    .stk-mv-r, .sect-r {
+      border-left: none !important;
+      border-top: 2px solid #e5e7eb !important;
+    }
+
+    /* ── Data tables (short list, polymarket, analyst) ────────── */
+    .data-table {
+      min-width: 100% !important;
+      font-size: 12px !important;
+    }
+    .data-table th {
+      padding: 6px 6px !important;
+      font-size: 10px !important;
+      white-space: nowrap !important;
+    }
+    .data-table td {
+      padding: 5px 6px !important;
+      font-size: 11px !important;
+      white-space: normal !important;
+    }
+
+    /* Hide ticker/code column on small screens for space */
+    .hide-mobile {
+      display: none !important;
+    }
+
+    /* ── Short list specific ─────────────────────────────────── */
+    .sl-section-header {
+      margin: 20px 0 8px !important;
+    }
+
+    /* ── Polymarket specific ─────────────────────────────────── */
+    .pm-odds-cell {
+      max-width: 180px !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    /* Polymarket pills — wrap on mobile */
+    .data-table td span[style*="inline-block"] {
+      font-size: 11px !important;
+      padding: 2px 5px !important;
+    }
+
+    /* ── Analyst reports ─────────────────────────────────────── */
+    .analyst-table td, .analyst-table th {
+      padding: 5px 6px !important;
+      font-size: 11px !important;
+    }
+    .analyst-table .hide-mobile-col {
+      display: none !important;
+    }
+
+    /* ── News brief ──────────────────────────────────────────── */
+    .news-container {
+      border-radius: 6px !important;
+    }
+    .news-body {
+      padding: 6px 10px 12px !important;
+    }
+    .news-headline {
+      font-size: 13px !important;
+      line-height: 1.5 !important;
+    }
+    .news-context {
+      font-size: 12px !important;
+      line-height: 1.5 !important;
+    }
+
+    /* ── Blog scrape ─────────────────────────────────────────── */
+    .blog-wrap {
+      padding: 10px 12px !important;
+    }
+
+    /* ── DART disclosures ────────────────────────────────────── */
+    .dart-wrap {
+      border-radius: 6px !important;
+    }
+
+    /* ── Error logger ────────────────────────────────────────── */
+    .error-pre {
+      font-size: 11px !important;
+      padding: 12px !important;
+      word-break: break-all !important;
+    }
+
+    /* ── Short summary (weekly/monthly) dark tables ───────────── */
+    .short-flex-wrap {
+      flex-direction: column !important;
+    }
+    .short-mini-table {
+      min-width: 100% !important;
+    }
+
+    /* ── General mobile typography ────────────────────────────── */
+    /* Ensure readable line-height for all text */
+    td, th, div, p, span {
+      line-height: 1.45 !important;
+    }
+    /* Prevent horizontal overflow from fixed-width elements */
+    div[style*="max-width"] {
+      max-width: 100% !important;
+    }
+  }
+</style>
+</head>
+    <body style="margin:0;padding:0;background:#f4f4f4;">
+    <div class="email-container" style="max-width:820px;margin:0 auto;padding:16px;box-sizing:border-box;width:100%;">
+      <img src="data:image/png;base64,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" class="email-header-img" style="width:100%;max-width:800px;border-radius:8px;height:auto;display:block;">
+      <div aria-hidden="true" style="height:16px;line-height:1px;font-size:1px;mso-line-height-rule:exactly;">&nbsp;</div>
+<style>
+@media only screen and (max-width:600px){
+  .mkt-wrap{padding:8px 10px!important}
+  .mkt-tbl{font-size:12px!important}
+  .mkt-asset{padding:5px 6px!important;font-size:12px!important}
+  .mkt-data{padding:5px 5px!important}
+  .mkt-period{display:none!important}
+}
+</style>
+    <div class="mkt-wrap" style="border:1px solid #e5e7eb;border-radius:8px;padding:10px 14px;
+                max-width:800px;width:100%;box-sizing:border-box;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+      <div style="font-weight:600;margin-bottom:6px;font-size:15px;color:black">Overnight Market Snapshot</div>
+      <table class="mkt-tbl" style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+          <tr style="border-bottom:1px solid #e5e7eb;">
+            <th class="mkt-asset" style='text-align:left;padding:4px 10px;font-weight:500;color:black;width:100%'>Asset</th>
+            <th class="mkt-data" style='text-align:right;padding:4px 8px;font-weight:500;color:black;white-space:nowrap;'>Price</th>
+            <th class="mkt-data" style='text-align:right;padding:4px 8px;font-weight:500;color:black;white-space:nowrap;'>Change</th>
+            <th class='mkt-period' style='text-align:right;padding:4px 8px;font-weight:500;color:black;white-space:nowrap;'>WTD</th><th class='mkt-period' style='text-align:right;padding:4px 8px;font-weight:500;color:black;white-space:nowrap;'>MTD</th>
+          </tr>
+        </thead>
+        <tbody><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>S&P 500</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>7,108.40</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -0.41%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-0.25%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+8.88%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>NASDAQ 100</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>26,782.62</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -0.57%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+0.41%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+12.82%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>VIX</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>19.31</td><td style='padding:6px 8px;text-align:right;color:#16a34a;font-weight:700;white-space:nowrap;'>▲ +2.06%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+10.47%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-23.52%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>US 10Y Yield</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>4.3230%</td><td style='padding:6px 8px;text-align:right;color:#16a34a;font-weight:700;white-space:nowrap;'>▲ +2.9bps</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+7.7bps</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+1.2bps</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>Bitcoin (USD)</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>77,986.40</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -0.28%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+5.59%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+14.29%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>Gold (USD)</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>4,708.60</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -0.51%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-2.18%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+1.31%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>WTI Crude Oil</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>97.00</td><td style='padding:6px 8px;text-align:right;color:#16a34a;font-weight:700;white-space:nowrap;'>▲ +4.35%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+15.68%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-4.32%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>USD/KRW</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>1,479.99</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -0.39%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+0.90%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-2.38%</td></tr></tbody>
+      </table>
+    </div>
+    
+<div aria-hidden="true" style="height:16px;line-height:1px;font-size:1px;mso-line-height-rule:exactly;">&nbsp;</div>
+<div class="news-container" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;max-width:800px;box-shadow:0 1px 3px rgba(0,0,0,0.08);"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr><td style="background:#1a1a2e;padding:10px 16px;"><span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7c8db5;">Morning Brief</span>&nbsp;&nbsp;<span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#4a5a7a;">전일 18:00 → 06:30 KST&nbsp;·&nbsp;2026-04-24 06:34 KST</span></td></tr><tr><td class="news-body" style="background:#fff;padding:6px 16px 14px 16px;"><table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* US MARKET OVERNIGHT</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">S&P 500 rises 1.1%, Nasdaq gains 1.6% on Iran ceasefire extension</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (wsj)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">President Trump extended Iran ceasefire pending unified proposal from Iranian leaders, boosting investor sentiment. Markets rallied as traders feared missing gains despite ongoing Middle East tensions. Geopolitical risk premium temporarily reduced across equity markets.</span>
+          
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Brent crude jumps 3.5% to $101.91 amid Strait of Hormuz attacks</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (wsj)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">Iran fired on three ships in critical waterway despite ceasefire, highlighting continued supply risks. Analysts noted disconnect between market pricing and physical oil shortages at industry event. Energy sector benefited from sustained geopolitical premium.</span>
+          
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">GE Vernova surges 13.8% on 71% order jump to $18.3 billion</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (wsj)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">Power equipment maker became S&P 500's biggest gainer on data-center demand driving infrastructure orders. Company raised full-year revenue outlook amid AI-driven power infrastructure boom. Industrial and utility sectors seeing increased capital investment.</span>
+          
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Software stocks crash 6% on ServiceNow, IBM earnings disappointments</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (wsj)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">ServiceNow plunged 18% and IBM dropped 8% after poorly received quarterly reports weighed on sector. iShares software ETF fell 6% as enterprise software demand concerns spread. Technology sector rotation continues away from high-multiple software names.</span>
+          
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Semiconductor index gains 1.7% led by Texas Instruments 19% surge</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (wsj)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">Chip stocks bucked broader tech weakness following strong Texas Instruments quarterly results. Semiconductor sector showed resilience despite software stock selloff and broader market decline. AI chip demand and automotive recovery supporting semiconductor fundamentals.</span>
+          
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">US stocks rise toward records on Iran ceasefire extension, Brent oil tops $100</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (한국경제)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">뉴욕증시는 미·이란 휴전 연장 소식에 장 초반 강세를 보였다. 트럼프 대통령이 이란과의 협상을 일요일까지 완료 목표로 설정하며 휴전을 연장했다고 발표했다. 그러나 호르무즈 해협 봉쇄 지속으로 브렌트유는 100달러를 돌파했다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.hankyung.com/article/2026042201317" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;hankyung.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Traders bet $430M on lower oil prices minutes before Trump ceasefire announcement</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (Watcher Guru)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">트럼프 대통령이 이란과의 휴전 연장을 발표하기 몇 분 전, 트레이더들이 유가 하락에 4억 3천만 달러를 베팅했다. 이는 사전 정보를 바탕으로 한 거래 가능성을 시사한다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/WatcherGuru/13370" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* SEMIS & AI</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Tesla beats Q1 EPS at $0.41 vs $0.33 expected, revenue $22.4B vs $21.4B</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (루팡)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">테슬라가 1분기 조정 주당순이익 41센트를 기록해 월가 예상치 34센트를 상회했다. 매출은 224억 달러로 예상치 214억을 넘어섰고, 총이익률은 21.1%를 달성했다. 시간외 거래에서 3.3% 상승했다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/bornlupin/17693" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Tesla strikes up to $2B AI hardware acquisition deal, $1.8B performance-based</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국 주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">Tesla가 최대 20억 달러 규모의 AI 하드웨어 기업 인수 계약을 체결했다고 발표했다. 이 중 약 18억 달러는 해당 기업 기술의 성공적 배치 여부에 따라 성과 마일스톤 충족 시 지급될 예정이다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/47999" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">SpaceX strikes $60B deal for right to buy AI coding startup Cursor</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (Yahoo Finance)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">SpaceX가 AI 코딩 스타트업 Cursor를 인수할 수 있는 권리에 대해 600억 달러 규모의 계약을 체결했다. 이는 일론 머스크의 AI 분야 확장 전략의 일환으로 보인다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxQakZzMDM2cjdnbThWM0hKUndMSXdFSnZpQTlUWWxZQnlkcWF1VG4xZkpaZ0NZalktd28xQUlSdkhtbzV1aGphR1VPSGY0T2F2ZkZORHFXdFhxeXVsb1RySDJ0SThRak1HRzZPZHBIZHRqMDBUbUE2SkdfWFYwSW4wSVktTEd1clpxM1lNS2ZTeFNJV0JsQmw2NUlxVjVHVS1kZzJBb3VXWnNyd1FTZV9sZ2FxV0E5enlPbUxrQTgwRzRfN0ZtWjM2bElQYmpodw?oc=5" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;news.google.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* MACRO & FX</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">US jobless claims rise to 214K vs 210K expected, continuing claims at 1.821M</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국 주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">미국 신규 실업수당 청구건수가 21만 4천건으로 예상치 21만건을 상회했다. 지속 실업수당 청구건수도 182만 1천건으로 예상치를 넘어섰다. 고용시장 둔화 신호가 확인되며 금리 인하 기대를 자극하는 재료로 작용할 전망이다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/47992" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Treasury Secretary Bessent says crypto will be 'very important payment rail'</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (Watcher Guru)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">베센트 재무장관이 암호화폐가 '매우 중요한 결제 수단'이 될 것이라고 발언했다. 이는 트럼프 행정부의 친암호화폐 정책 기조를 재확인하는 발언으로 해석된다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/WatcherGuru/13371" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Bitcoin hits $79,000, Tesla reveals no Bitcoin sales in Q1 with $900M holdings</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (Watcher Guru)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">비트코인이 7만 9천 달러를 기록했다. 테슬라는 1분기에 보유한 9억 달러 상당의 비트코인을 전혀 매도하지 않았다고 발표했다. 미군이 비트코인 노드를 운영하며 네트워크 보안 테스트를 진행 중이라는 소식도 나왔다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/WatcherGuru/13368" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* ENERGY & COMMODITIES</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Trump orders US Navy to shoot ships laying mines in Strait of Hormuz</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국 주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">트럼프 대통령이 호르무즈 해협에 기뢰를 설치하는 모든 선박을 즉시 사격해 격침시키라고 미 해군에 명령했다. 미국이 호르무즈 해협을 완전히 통제하고 있으며, 미군 승인 없이는 어떤 선박도 들어오거나 나갈 수 없다고 발언했다. 이란과의 합의가 이뤄질 때까지 해협 봉쇄를 유지하겠다고 밝혔다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/47995" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Russia cuts oil supply to Germany amid EU pressure over Ukraine support</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (한국경제)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">러시아가 독일로 가는 원유 공급을 중단한다고 발표했다. 이는 우크라이나 지원에 대한 EU 압박에 대응하는 조치로 보인다. 유럽 에너지 공급망에 추가적인 불안 요인이 될 전망이다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.hankyung.com/article/2026042201161" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;hankyung.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">US military seizes Iranian oil tanker M/T Majestic X in Indian Ocean</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국 주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">미군이 인도양에서 이란산 원유를 운송하던 제재 대상 무국적 선박 M/T Majestic X에 대해 해상 차단 작전 및 승선 검색을 실시했다. 미국은 이란에 물질적 지원을 제공하는 선박과 불법 네트워크를 차단하기 위한 전 세계 해상 집행 작전을 지속할 방침이라고 발표했다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/48000" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* BIOTECH PIPELINE UPDATES</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">PureTech Health's LYT-200 shows 38% complete response rate in 1b trial for AML</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국 주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">PureTech Health의 LYT-200이 재발·불응성 급성 골수성 백혈병 및 골수이형성증후군 대상 1b상에서 완전 관해 및 양호한 내약성을 확인했다. 2025년 12월 미국혈액학회 발표에서 통합 완전 반응률 38%, 질병통제율 97%를 기록했다. 2026년 4월 22일 기준 1b상 데이터가 긍정적으로 나타나고 있다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/47862" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">CervoMed's neflamapimod enters Phase 3 for Lewy body dementia in H2 2026</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국 주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">CervoMed의 네플라마피모드가 루이소체 치매 대상 3상 단계 진입을 앞두고 있으며 2026년 하반기 임상이 계획되어 있다. 2026년 4월 22일 미국신경학회 발표 2상 데이터에서 우측 기저전뇌 용적 변화가 위약군은 감소, 치료군은 증가하며 통계적 유의성을 확보했다. 치매 치료제 개발에서 중요한 진전을 보이고 있다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/47862" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Altimmune raises $192.8M through public offering at $3 per unit ahead of MASH Phase 3 data</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국 주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">알트이뮨이 약 1억9,280만 달러 규모 인수 공모를 진행했다. 약 6,425만 주와 워런트를 유닛당 3달러에 발행했으며, pemvidutide 대사이상 관련 지방간염(MASH) 3상 데이터 발표를 앞두고 추가 자금을 확보했다. 중요한 임상 결과 발표를 앞둔 자금 조달로 주목받고 있다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/48001" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Cannabis stocks rally on Trump marijuana reclassification reports, Akanda surges</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국 주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">트럼프 대통령이 이르면 이번 주 대마초 재분류에 나설 수 있다는 보도가 나온 후 업종 전반이 랠리를 보이고 있다. 아칸다 주가가 상승했으며, 틸레이 브랜즈와 캐노피 등 주요 대마초 관련 주식들이 동반 상승했다. 규제 완화 기대감이 섹터 전체를 끌어올리고 있다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/48001" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* KOREA OPEN WATCH</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">KDI warns 20% oil price rise for 1 year would cut Korea growth by 0.2%p</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (동아일보)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">김세직 KDI 원장은 올해 경제의 가장 큰 변수는 중동 전쟁이라며, 전쟁 전보다 국제 유가가 20% 오른 상태가 1년간 지속되면 한국 경제성장률이 0.2%포인트 하락할 것으로 예상된다고 밝혔다. 호르무즈 해협 봉쇄 지속으로 유가 상승 압력이 한국 경제에 부담 요인으로 작용할 전망이다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.donga.com/news/Economy/article/all/20260422/133794932/2" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;donga.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Kelp DAO hack wipes out $4B in crypto, potential market impact assessed</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (매일경제)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">미국과 이란이 휴전 중인 지난 주말, 이더리움 기반 금융 서비스를 제공하는 Kelp DAO에서 무려 4000억원에 달하는 코인이 해킹으로 사라졌다. 디지털 자산 시장에 대한 불안감이 확산될 가능성이 있다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.mk.co.kr/news/stock/12024601" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;mk.co.kr</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* Wall Street Views</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Switzerland proposes $20B capital increase for UBS after Credit Suisse takeover</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (Financial Times)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">스위스 연방위원회가 UBS에 대해 200억 달러 규모의 자본 증액을 제안했다고 발표했다. 이는 크레디트 스위스 인수 후 수개월간의 로비 활동을 거쳐 나온 은행 개혁 계획의 일환이다. UBS는 국가 최대 은행으로서 시스템 리스크 관리를 위한 추가 자본 확충이 필요하다는 판단이다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.ft.com/content/c9ba52cb-c862-45ed-abb5-e0b599e17888" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;ft.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Pentagon requests $54B budget pivot toward AI-powered warfare capabilities</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (The Guardian)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">미 국방부가 AI 기반 전쟁 능력 구축을 위해 540억 달러 예산을 요청했다. 이는 전통적인 군사 장비에서 인공지능 중심의 차세대 무기 체계로의 전환을 의미한다. 방산주와 AI 관련 기업들에게 장기적인 수혜 요인이 될 전망이다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://news.google.com/rss/articles/CBMipAFBVV85cUxNSnVMa2ZTYko5NmhDdUp3ZzRZWlJQeDVhdDZXc0FhTy1Na0xJdThrM0dVelIzd3NwWGVvSS1ULVhHOEJnNkoxTldpMm9VWjg5cE1sM2k1ZkJxdUpaS1ZtUzUyallTSVJPRG0xWmF1NEtXajkxX2JRXzAwaXBmbm9fSzYzemFHblhNSWh3aHRNSkZGMkZaeWcxNGxwWXpTbWYwaXdPeA?oc=5" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;news.google.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr></table></td></tr></table></div>
+<div aria-hidden="true" style="height:16px;line-height:1px;font-size:1px;mso-line-height-rule:exactly;">&nbsp;</div>
+
+    <div style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;max-width:900px;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.08);margin-bottom:16px;">
+      <div style="padding:10px 14px 8px;font-weight:600;font-size:15px;color:#111827;
+                  border-bottom:1px solid #e5e7eb;">
+        Analyst Reports — April 24, 2026
+      </div>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table class="analyst-table data-table" style="width:100%;border-collapse:collapse;min-width:400px;">
+          <thead><tr><th style="padding:6px 10px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid #e5e7eb;white-space:nowrap;">종목명</th><th style="padding:6px 10px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid #e5e7eb;white-space:nowrap;">내용</th><th style="padding:6px 10px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid #e5e7eb;white-space:nowrap;">의견</th><th style="padding:6px 10px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid #e5e7eb;white-space:nowrap;">현재주가</th><th style="padding:6px 10px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid #e5e7eb;white-space:nowrap;">목표주가</th><th style="padding:6px 10px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid #e5e7eb;white-space:nowrap;">괴리율</th><th style="padding:6px 10px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid #e5e7eb;white-space:nowrap;">증권사</th><th style="padding:6px 10px;text-align:left;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.04em;border-bottom:2px solid #e5e7eb;white-space:nowrap;">애널리스트</th></tr></thead>
+          <tbody><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>SK하이닉스</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">1Q26 Review: 엔비디아보다 높은 이익률<br><span style='color:#6b7280;font-size:11px;'>1분기 실적은 컨센서스 부합</span><br><span style='color:#6b7280;font-size:11px;'>가격은 계속 오를 수 있다</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">1,225,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">2,050,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+67.3%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">한국투자증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">채민숙</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>SK하이닉스</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">여전히 매력적<br><span style='color:#6b7280;font-size:11px;'>1Q26 Review: 컨센서스 부합</span><br><span style='color:#6b7280;font-size:11px;'>2Q26 Preview: 가격과 출하의 콜라보</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">1,225,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">1,750,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+42.9%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">하나증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">김록호</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>SK하이닉스</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">Shaper and Longer<br><span style='color:#6b7280;font-size:11px;'>메모리반도체 초호황을 재차 입증한 실적 발표</span><br><span style='color:#6b7280;font-size:11px;'>순현금 100조원과 주주환원 강화는 현실성 있는 목표</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">1,225,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">1,700,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+38.8%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">대신증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">류형근</td></tr><tr><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>현대글로비스</strong></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">길이 막히면 단가가 뛴다<br><span style='color:#6b7280;font-size:11px;'>2분기 이후 신조선 인도가 본격적으로 시작</span><br><span style='color:#6b7280;font-size:11px;'>1Q26 Review: 영업이익률 6.7% 기록</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">230,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">310,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+34.8%</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">하나증권</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">송선재</td></tr><tr><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>삼성E&A</strong></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">유효한 재건 기대<br><span style='color:#6b7280;font-size:11px;'>1Q26 잠정실적: 컨센서스 부합</span><br><span style='color:#6b7280;font-size:11px;'>미국-이란 전쟁의 영향: 발주 연기, 재건 기대, 장기화는 우려</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">50,300</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">67,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+33.2%</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">하나증권</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">김승준</td></tr><tr><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>두산</strong></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">본업 확장과 중장기 시너지 강화<br><span style='color:#6b7280;font-size:11px;'>두산에너빌리티 지분가치 증가와 전자BG 지속 성장으로 TP +40.1% 상향</span><br><span style='color:#6b7280;font-size:11px;'>전자BG 사업 CAPEX 투자가 가져올 향후 실적 개선</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">1,442,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">1,920,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+33.1%</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">대신증권</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">이경연</td></tr><tr><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>LG디스플레이</strong></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">1Q 선전, OLED 투자 확대<br><span style='color:#6b7280;font-size:11px;'>1Q26 영업이익은 1,479억원(338% yoy)으로 컨센서스 부합</span><br><span style='color:#6b7280;font-size:11px;'>2H26 영업이익은 8,069억원으로 34.6%(yoy) 추정, 실적 호조</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">13,250</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">17,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+28.3%</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">대신증권</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">박강호</td></tr><tr><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>KB금융</strong></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">1Q26 Re. 대장주의 품격<br><span style='color:#6b7280;font-size:11px;'>1Q26P Review - 기대치 상회</span><br><span style='color:#6b7280;font-size:11px;'>기보유 자사주 전량 소각</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">158,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">200,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+26.6%</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">DB증권</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">나민욱</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>KB금융</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">비은행이 그룹 ROE 상승 견인. 기존 자사주도 모두 소각<br><span style='color:#6b7280;font-size:11px;'>컨센서스를 대폭 상회한 호실적. 판관비 제외 전부문 양호했고, 증권사 순익 대폭 개선</span><br><span style='color:#6b7280;font-size:11px;'>기존 자사주 전량 소각 결정. CET 1 비율 13.63%로 19bp 하락했지만 우려보다 선방</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">158,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">200,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+26.6%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">하나증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">최정욱</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>KB금융</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">비은행 계열사의 눈부신 약진<br><span style='color:#6b7280;font-size:11px;'>비은행 계열사의 눈부신 약진, 1분기 순이익 사상 최대 실적 달성</span><br><span style='color:#6b7280;font-size:11px;'>환율 상승에도 흔들림 없는 CET1 비율, 하반기 자사주 5,100억원 가능</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">158,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">190,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+20.3%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">대신증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">박혜진</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>KB금융</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">업종 내 최선호주로 제시<br><span style='color:#6b7280;font-size:11px;'>비은행 약진이 만든 1분기 서프라이즈</span><br><span style='color:#6b7280;font-size:11px;'>자본시장 호조의 수혜는 결국 대형 증권사로 집중</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">158,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">190,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+20.3%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">상상인증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">김현수</td></tr><tr><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>신한지주</strong></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">1Q26 Re. 보다 정교해진 밸류업 계획<br><span style='color:#6b7280;font-size:11px;'>1Q26P Review - 기대치 상회</span><br><span style='color:#6b7280;font-size:11px;'>기업가치제고계획 2.0</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">99,900</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">126,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+26.1%</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">DB증권</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">나민욱</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>신한지주</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">RWA 성장률 대비 ROE 수준이 주주환원율을 결정<br><span style='color:#6b7280;font-size:11px;'>증권 이익 성장으로 분기 1.6조원 내외의 경상 체력 확보. 그룹 수수료이익 대폭 급증</span><br><span style='color:#6b7280;font-size:11px;'>CET 1 비율 13.19%로 16bp 하락했지만 향후 상승 요인 다수. 2Q 13.4% 상회 예상</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">99,900</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">126,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+26.1%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">하나증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">최정욱</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>신한지주</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">비은행의 시간, 더 분명해진 밸류업<br><span style='color:#6b7280;font-size:11px;'>1분기 실적은 컨센서스 상회. 목표주가 125,000원으로 상향</span><br><span style='color:#6b7280;font-size:11px;'>비이자이익 개선은 올해 핵심 실적포인트</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">99,900</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">125,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+25.1%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">상상인증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">김현수</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>신한지주</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">EPS증가 + 총환원율 상승=멀티플 리레이팅 요인<br><span style='color:#6b7280;font-size:11px;'>증권 실적 눈부신 개선, 순이익 컨센서스 소폭 상회</span><br><span style='color:#6b7280;font-size:11px;'>연체율 상승에 따라 경상적 대손비용 레벨 높아지는 것은 우려 요인</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">99,900</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">120,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+20.1%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">대신증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">박혜진</td></tr><tr><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>현대차</strong></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">딱 예상한대로<br><span style='color:#6b7280;font-size:11px;'>1Q26 OP 추정(2.5조) 부합/컨센(2.7조) 소폭 하회. 무난한 실적 시현</span><br><span style='color:#6b7280;font-size:11px;'>이란 전쟁 우려로 고점 대비 -21% 하락했으나, 하반기 모멘텀에 주목</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">532,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">660,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+24.1%</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">대신증권</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">김귀연</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>현대차</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">제조업을 넘어 모빌리티/AI 프리미엄 구간으로 진입<br><span style='color:#6b7280;font-size:11px;'>하반기 기술 서비스 기업에 대한 가능성을 확인하게 될 것</span><br><span style='color:#6b7280;font-size:11px;'>1Q26 Review: 영업이익률 5.5% 기록</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">532,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">660,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+24.1%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">하나증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">송선재</td></tr><tr><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>삼성에스디에스</strong></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">성장과 가치 제고라는 명확한 목표 제시<br><span style='color:#6b7280;font-size:11px;'>1Q26 Re: 컨센서스 하회</span><br><span style='color:#6b7280;font-size:11px;'>실적은 하반기로 갈수록 좋다</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">178,400</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">220,000</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+23.3%</span></td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">하나증권</td><td style="padding:14px 10px 6px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">이준호</td></tr><tr><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><strong>삼성에스디에스</strong></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:normal;">투자도 좋지만 실적 회복이 우선<br><span style='color:#6b7280;font-size:11px;'>부진한 업황과 대규모 일회성 비용 반영되며 실적은 부진</span><br><span style='color:#6b7280;font-size:11px;'>하반기를 기다리며 서두르지 말자</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;"><span style="display:inline-block;background:#1a7f1e;color:#fff;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:700;">BUY</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">178,400</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;">200,000</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;text-align:right;white-space:nowrap;"><span style='color:#1a7f1e;font-weight:700'>+12.1%</span></td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">한국투자증권</td><td style="padding:6px 10px;font-size:12px;color:#374151;border-bottom:1px solid #f3f4f6;vertical-align:top;white-space:nowrap;">정호윤</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    
+<div aria-hidden="true" style="height:16px;line-height:1px;font-size:1px;mso-line-height-rule:exactly;">&nbsp;</div>
+
+    <div class="dart-wrap" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;max-width:800px;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.08);margin-bottom:16px;">
+      <div style="padding:10px 14px 6px;font-weight:600;font-size:15px;color:black;
+                  border-bottom:1px solid #e5e7eb;">
+        Significant Shareholding Changes — April 24, 2026
+      </div>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+        <table class="data-table" style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="border-bottom:1px solid #e5e7eb;">
+              <th style="text-align:left;padding:4px 10px;font-weight:500;color:black">Company</th>
+              <th class="hide-mobile" style="text-align:left;padding:4px 10px;font-weight:500;color:black">Code</th>
+              <th style="text-align:left;padding:4px 10px;font-weight:500;color:black">Filer</th>
+              <th style="text-align:right;padding:4px 10px;font-weight:500;color:black">Before</th>
+              <th style="text-align:right;padding:4px 10px;font-weight:500;color:black">After</th>
+              <th style="text-align:right;padding:4px 10px;font-weight:500;color:black">Change</th>
+              <th class="hide-mobile" style="text-align:right;padding:4px 10px;font-weight:500;color:black">Prev Disclosure</th>
+            </tr>
+          </thead>
+          <tbody><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>KSS LINE LTD.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>044450</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>케이에스에스해운사내근로복지기금</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>0.00%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>25.53%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#16a34a'>▲&nbsp;25.53%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>—</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>Moadata Co., Ltd.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>288980</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>아트마투자조합</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>0.00%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>13.20%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#16a34a'>▲&nbsp;13.20%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>—</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>BG T&A Co.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>046310</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>차파트너스자산운용</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>0.00%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>6.19%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#16a34a'>▲&nbsp;6.19%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-04-06</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>ORGANIC TEA COSMETICS HOLDINGS COMPANY LIMITED</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>900300</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>SUN YANE</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>0.00%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>5.91%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#16a34a'>▲&nbsp;5.91%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>—</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>Wavice Inc.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>289930</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>MORGANSTANLEY&COINTLPLC</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>0.00%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>5.03%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#16a34a'>▲&nbsp;5.03%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>—</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>ECHOMARKETING Co.,Ltd.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>230360</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>비씨피이이에이비드코원</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>92.53%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>93.89%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#16a34a'>▲&nbsp;1.36%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-04-02</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>FRTEKCO.,LTD.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>073540</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>김대용</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>15.86%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>17.15%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#16a34a'>▲&nbsp;1.29%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-04-09</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>ThinkwareSystemsCorporation</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>084730</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>유비벨록스</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>48.29%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>49.53%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#16a34a'>▲&nbsp;1.24%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-04-06</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>MODETOURNETWORKINC.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>080160</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>우종웅</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>16.38%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>17.48%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#16a34a'>▲&nbsp;1.10%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2025-12-30</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>NBR Motion Co., Ltd.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>0004V0</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>아이비케이스톤브릿지혁신성장사모투자</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>5.88%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>4.60%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#dc2626'>▼&nbsp;1.28%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-03-05</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>RF Materials Co., Ltd.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>327260</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>한기우</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>7.83%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>6.25%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#dc2626'>▼&nbsp;1.58%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2025-12-24</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>Kanaph Therapeutics Inc.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>0082N0</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>프리미어파트너스</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>6.95%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>4.83%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#dc2626'>▼&nbsp;2.12%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-03-19</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>B2En Co., Ltd.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>307870</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>엑스트윈스1호조합</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>24.48%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>21.26%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#dc2626'>▼&nbsp;3.22%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-04-02</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>Laseroptek Co., Ltd.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>199550</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>주홍</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>22.56%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>18.85%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#dc2626'>▼&nbsp;3.71%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-04-13</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>IT-CHEM Co., Ltd.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>309710</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>타임폴리오자산운용</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>6.12%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>2.08%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#dc2626'>▼&nbsp;4.04%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-03-06</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>Billions Co.,Ltd.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>044480</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>휴마시스</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>56.45%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>40.94%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#dc2626'>▼&nbsp;15.51%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2026-04-03</td></tr><tr><td style='padding:6px 10px;color:black;white-space:nowrap'>KSS LINE LTD.</td><td class='hide-mobile' style='padding:6px 10px;color:#555;white-space:nowrap'>044450</td><td style='padding:6px 10px;color:#555;white-space:nowrap'>박종규</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>30.20%</td><td style='padding:6px 10px;text-align:right;color:black;white-space:nowrap'>0.00%</td><td style='padding:6px 10px;text-align:right;white-space:nowrap;color:#dc2626'>▼&nbsp;30.20%</td><td class='hide-mobile' style='padding:6px 10px;text-align:right;color:#555;white-space:nowrap;font-size:12px;'>2025-12-01</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    
+
+    <div class="dart-wrap" style="border:1px solid #e5e7eb;border-radius:8px;padding:10px 14px;max-width:800px;
+                box-sizing:border-box;overflow:hidden;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.08);margin-bottom:16px;">
+      <div style="font-weight:600;margin-bottom:8px;font-size:15px;color:black">
+        Major DART Disclosures — April 24, 2026
+      </div>
+      <ul style="margin:0;padding-left:18px;word-break:break-word;overflow-wrap:break-word;">
+        <li style='margin-bottom:12px;font-size:13px;color:black;word-break:break-word;overflow-wrap:break-word;'><strong>Hyundai-Rotem (064350)</strong><ul style='margin:4px 0 0 0;padding-left:16px;'><li style='margin-top:4px;color:#555;font-size:12px;'><em>단일판매ㆍ공급계약체결              </em>: Co disclosed it won a contract to supply rolling stock for the Vietnam Ho Chi Minh Line 2 localization project (phases 2 and 3). Contract is worth 334.46bn KRW ($252mn, 5.7% of its 2025 revenue). (dart)</li><li style='margin-top:4px;color:#555;font-size:12px;'><em>단일판매ㆍ공급계약체결              </em>: Co disclosed it won a contract to supply rolling stock for the Vietnam Ho Chi Minh Line 2 localization project (phase 1). Contract is worth 156.61bn KRW ($118mn, 2.7% of its 2025 revenue). (dart)</li></ul></li><li style='margin-bottom:12px;font-size:13px;color:black;word-break:break-word;overflow-wrap:break-word;'><strong>HYBE (352820)</strong><ul style='margin:4px 0 0 0;padding-left:16px;'><li style='margin-top:4px;color:#555;font-size:12px;'><em>기업가치제고계획(자율공시)              </em>: Co announced a 3-year shareholder value enhancement plan from 2025 to 2027. The plan includes distributing 30% of consolidated free cash flow to shareholders via dividends and share buybacks, with a minimum dividend of 500 KRW per share guaranteed. (dart)</li></ul></li><li style='margin-bottom:12px;font-size:13px;color:black;word-break:break-word;overflow-wrap:break-word;'><strong>SHINHAN FINANCIAL GROUP (055550)</strong><ul style='margin:4px 0 0 0;padding-left:16px;'><li style='margin-top:4px;color:#555;font-size:12px;'><em>기업가치제고계획(자율공시)              (2026년)</em>: Co set a corporate value enhancement plan targeting 2027 with key goals: 10% ROE, 50% shareholder return ratio, and reducing issued shares by 50 million. As of 2025, ROE improved to 9.11%, shareholder return exceeded 50.2%, and CET1 ratio remained stable above 13%. (dart)</li></ul></li>
+      </ul>
+    </div>
+    
+<div aria-hidden="true" style="height:16px;line-height:1px;font-size:1px;mso-line-height-rule:exactly;">&nbsp;</div>
+
+    <div class="blog-wrap" style="border:1px solid #e5e7eb;border-radius:8px;padding:14px 18px;max-width:800px;
+                width:100%;box-sizing:border-box;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+      <div style="font-weight:700;font-size:15px;color:#111;margin-bottom:14px">
+        Blog Summaries
+      </div>
+      
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            메르의 블로그 &nbsp;·&nbsp; 2026-04-24 00:10
+          </div>
+          <a href='https://blog.naver.com/ranto28/224261513097?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            스킨부스터 미용시장의 돌연변이, ECM의 정체는? A/S
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • ECM은 4세대 스킨부스터로 기증자 사체의 피부를 가공해 만든 세포외기질 물질이며, 기존 화장품과 달리 진피층에 직접 주입되어 빠르고 강력한 효과를 보입니다.<br>• 인체조직으로 분류되어 의료기기 임상시험을 건너뛰고 유통되고 있어 안전성에 대한 우려가 제기되고 있습니다.<br>• 효과는 있는 것으로 보이나 제대로 된 임상 없이 시술되는 점과 사체 사용에 대한 윤리적 문제가 지적되고 있습니다.
+          </div>
+        </div>
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            군포금융치료센터 &nbsp;·&nbsp; 2026-04-23 23:21
+          </div>
+          <a href='https://blog.naver.com/doctordk/224263037924?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            OCI홀딩스가 암시한 대규모 증설의 함의
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • OCI홀딩스가 2028년까지 현재 대비 2배 규모인 6-7만톤/년 폴리실리콘 생산능력 확대를 검토 중이라고 발표했습니다.<br>• 미국 태양광 시장 회복, 중동 전쟁으로 인한 데이터센터 미국 이전, 우주/반도체 등 신규 분야 장기공급계약 문의 급증이 증설 배경입니다.<br>• Non-China 폴리실리콘이 범용 소재에서 고부가 전략 소재로 재평가되면서 밸류에이션 상향이 예상됩니다.
+          </div>
+        </div>
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            골드핑거의 투자이야기 &nbsp;·&nbsp; 2026-04-23 22:48
+          </div>
+          <a href='https://blog.naver.com/jp187/224263008584?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            나보다 나를 더 잘 아는 사람은?
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • AI 기술 발전으로 클로드가 개인 블로그를 분석해 매우 정확하고 상세한 투자 성향 분석 결과를 제공할 수 있게 되었습니다.<br>• 과거 GPT 초창기와 달리 현재는 블로그 분석 품질이 크게 향상되어 본인도 만족할 만한 결과물을 얻을 수 있습니다.
+          </div>
+        </div>
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            작은 생각 &nbsp;·&nbsp; 2026-04-23 21:40
+          </div>
+          <a href='https://blog.naver.com/jhlimidea/224262945199?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            정답은 있다
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • 축구 감독의 철학을 통해 투자와 인생에서 실수를 두려워하지 말고 끊임없이 도전하고 상상해야 한다는 메시지를 전달합니다.<br>• 성공을 위해서는 현재에 안주하지 않는 절실한 태도가 환경이나 조건보다 중요하다고 강조합니다.<br>• 실패를 두려워하기보다는 시도 자체를 칭찬하고 격려하는 문화가 성장의 핵심이라고 설명합니다.
+          </div>
+        </div>
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            군포금융치료센터 &nbsp;·&nbsp; 2026-04-23 20:57
+          </div>
+          <a href='https://blog.naver.com/doctordk/224262907212?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            도대체 AI 끝은 무엇일까?
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • AI 기술의 발전 속도가 매우 빨라 GPT, 제미나이, 클로드, 노트북 LM 등이 연이어 등장하며 기술 패러다임이 급속히 변화하고 있습니다.
+          </div>
+        </div>
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            주식탐구생활 &nbsp;·&nbsp; 2026-04-23 20:57
+          </div>
+          <a href='https://blog.naver.com/gunbaram/224262906755?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            나쁜 주식이 좋은 주식이 될때...
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • 20년간 박스권에 갇혀있던 좋은 회사가 단 4개월 만에 상향 돌파하며 2배 가까운 상승을 보였습니다.<br>• 좋은 회사였지만 나쁜 주식이었던 종목이 좋은 주식으로 변화하는 전환점을 맞이했을 가능성을 제시합니다.
+          </div>
+        </div>
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            이기는 투자자 &nbsp;·&nbsp; 2026-04-23 20:04
+          </div>
+          <a href='https://blog.naver.com/luy1978/224262860619?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            삼전·닉스 2배 ETF 16종 나온다…반도체 랠리 추가동력 되나
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • 다음달 22일 삼성전자와 SK하이닉스 단일종목 레버리지/인버스 ETF 총 16개 상품이 동시 상장될 예정입니다.<br>• 레버리지 ETF로 대규모 자금이 유입될 경우 기초자산인 삼성전자와 SK하이닉스의 매수 수요가 함께 증가할 것으로 예상됩니다.<br>• 상승장에서 ETF 자금 유입이 반도체 주가를 추가로 밀어올리는 동력으로 작용할 가능성이 높습니다.
+          </div>
+        </div>
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            Myelin, 경제 금융 산업 공부 &nbsp;·&nbsp; 2026-04-23 19:33
+          </div>
+          <a href='https://blog.naver.com/blissfulnara/224262833991?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            윤쎈, 삼쩜삼 캠퍼스 라이브 요약
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • 현재 시장은 하워드 막스의 강세장 2-3단계 또는 강세 3단계에서 약세장 1단계 사이에 위치한 것으로 분석됩니다.<br>• 한국 기업들의 EPS 상승과 자사주 소각/배당 증가를 통한 주주가치 제고가 주가 상승의 두 축을 형성하고 있습니다.<br>• 유가 상승으로 인한 인플레이션 우려 속에서도 대형주 중심의 장세가 지속될 것으로 전망하며 선제적 포트폴리오 구성을 권장합니다.
+          </div>
+        </div>
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            이기는 투자자 &nbsp;·&nbsp; 2026-04-23 18:14
+          </div>
+          <a href='https://blog.naver.com/luy1978/224262758431?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            SK하이닉스 계단식 리레이팅 구간 진입(메리츠)
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • SK하이닉스 1분기 영업이익이 37.6조원으로 전분기 대비 96% 증가했으며, DRAM과 NAND 영업이익률이 각각 78%, 52%를 기록했습니다.<br>• ADR 상장이 6월 내 결정될 예정이며, 미주 투자자들에게 밸류에이션 저평가 매력과 메모리 업사이클 수혜주로 인식될 것으로 예상됩니다.<br>• 목표주가를 200만원으로 상향 조정하며, Agentic AI 확산으로 2027년 메모리 공급부족이 심화될 것으로 전망합니다.
+          </div>
+        </div>
+    </div>
+    </div>
+    </body></html>
+    
