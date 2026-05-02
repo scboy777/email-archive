@@ -3,151 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Email Archive</title>
+<title>The Intelligent Investor</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; background:#f5f5f5; color:#333; }
-  .header { background:#1a1a2e; color:#fff; padding:32px 24px; text-align:center; }
-  .header h1 { font-size:1.6rem; font-weight:600; }
-  .header p { font-size:0.9rem; color:#aaa; margin-top:4px; }
-  .container { max-width:720px; margin:24px auto; padding:0 16px; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f5;color:#333}
 
-  /* Filters */
-  .toolbar { margin-bottom:16px; }
-  .filter-row { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
-  .filter-btn {
-    padding:6px 14px; border:1px solid #ddd; border-radius:20px;
-    background:#fff; color:#555; font-size:0.78rem; font-weight:500;
-    cursor:pointer; transition:all .15s;
-  }
-  .filter-btn:hover { border-color:#4a6cf7; color:#4a6cf7; }
-  .filter-btn.active { background:#4a6cf7; color:#fff; border-color:#4a6cf7; }
-  .date-row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-  .date-row label { font-size:0.8rem; color:#666; }
-  .date-row input[type="date"] {
-    padding:5px 10px; border:1px solid #ddd; border-radius:6px;
-    font-size:0.82rem; color:#333; background:#fff;
-  }
-  .date-row button {
-    padding:5px 12px; border:1px solid #ddd; border-radius:6px;
-    background:#fff; color:#888; font-size:0.78rem; cursor:pointer;
-  }
-  .date-row button:hover { border-color:#e74c3c; color:#e74c3c; }
+  .header{background:#1a1a2e;color:#fff;padding:14px 24px;display:flex;align-items:baseline;gap:12px}
+  .header h1{font-size:1.25rem;font-weight:600;letter-spacing:0.02em}
+  .header .accent{color:#7c8db5}
+  .header p{font-size:0.82rem;color:#4a5a7a}
 
-  /* Search */
-  .search-box {
-    margin-bottom:16px; position:relative;
-  }
-  .search-box input {
-    width:100%; padding:10px 16px 10px 38px; border:1px solid #ddd;
-    border-radius:8px; font-size:0.88rem; background:#fff; outline:none;
-    transition:border-color .15s;
-  }
-  .search-box input:focus { border-color:#4a6cf7; }
-  .search-box .search-icon {
-    position:absolute; left:12px; top:50%; transform:translateY(-50%);
-    color:#aaa; font-size:0.9rem; pointer-events:none;
-  }
-  .search-hint {
-    font-size:0.75rem; color:#999; margin-top:4px; padding-left:4px;
-  }
-  .search-results {
-    background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,.1);
-    margin-bottom:16px; display:none;
-  }
-  .search-results .sr-item {
-    padding:12px 16px; border-bottom:1px solid #f0f0f0; cursor:pointer;
-    transition:background .1s;
-  }
-  .search-results .sr-item:last-child { border-bottom:none; }
-  .search-results .sr-item:hover { background:#f8f9ff; }
-  .sr-meta { font-size:0.78rem; color:#888; margin-bottom:4px; }
-  .sr-snippet { font-size:0.84rem; color:#444; line-height:1.5; }
-  .sr-snippet mark { background:#fff3a8; padding:1px 2px; border-radius:2px; }
+  .layout{display:flex;height:calc(100vh - 50px)}
 
-  /* Table */
-  table { width:100%; border-collapse:collapse; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,.1); }
-  th { background:#f8f8f8; text-align:left; padding:12px 16px; font-size:0.8rem; text-transform:uppercase; color:#666; border-bottom:2px solid #eee; }
-  td { padding:12px 16px; border-bottom:1px solid #f0f0f0; font-size:0.9rem; }
-  tr:last-child td { border-bottom:none; }
-  tr:hover td { background:#fafafa; }
-  a { color:#4a6cf7; text-decoration:none; font-weight:500; }
-  a:hover { text-decoration:underline; }
-  .badge { display:inline-block; padding:3px 10px; border-radius:12px; font-size:0.75rem; font-weight:600; background:#e8eaed; color:#555; }
-  .badge-morning { background:#fff3cd; color:#856404; }
-  .badge-lunch { background:#d4edda; color:#155724; }
-  .badge-recap { background:#cce5ff; color:#004085; }
-  .badge-polymarket { background:#e2d5f1; color:#5a2d82; }
-  .badge-short_list { background:#f8d7da; color:#721c24; }
-  .badge-analyst { background:#d1ecf1; color:#0c5460; }
-  .badge-weekly { background:#ffeaa7; color:#6c5b00; }
-  .badge-monthly { background:#dfe6e9; color:#2d3436; }
-  .badge-squeeze_watch { background:#fab1a0; color:#6b2020; }
-  .badge-sector_rotation { background:#b2f2bb; color:#1b5e20; }
-  .badge-block_trades { background:#ffd6a5; color:#7c3a00; }
-  .empty { text-align:center; padding:48px; color:#999; }
-  .count { font-size:0.78rem; color:#999; margin-bottom:8px; padding-left:2px; }
-  @media (max-width:480px) {
-    th, td { padding:10px 12px; font-size:0.82rem; }
-    .filter-btn { padding:5px 10px; font-size:0.72rem; }
+  .sidebar{width:380px;min-width:300px;border-right:1px solid #1e1e28;display:flex;flex-direction:column;background:#111119}
+  .sidebar-scroll{flex:1;overflow-y:auto;padding:14px 14px 24px}
+  .sidebar-scroll::-webkit-scrollbar{width:5px}
+  .sidebar-scroll::-webkit-scrollbar-track{background:#111119}
+  .sidebar-scroll::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+  .sidebar-scroll::-webkit-scrollbar-thumb:hover{background:#555}
+
+  .toolbar{margin-bottom:12px}
+  .filter-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+  .filter-btn{
+    padding:5px 12px;border:1px solid #2a2a36;border-radius:4px;
+    background:#1a1a24;color:#888;font-size:0.73rem;font-weight:500;
+    cursor:pointer;transition:all .15s;
+  }
+  .filter-btn:hover{border-color:#ff8c00;color:#ffaa44}
+  .filter-btn.active{background:#ff8c00;color:#000;border-color:#ff8c00;font-weight:700}
+  .date-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .date-row label{font-size:0.75rem;color:#555}
+  .date-row input[type="date"]{padding:4px 8px;border:1px solid #2a2a36;border-radius:4px;font-size:0.78rem;color:#bbb;background:#1a1a24}
+  .date-row button{padding:4px 10px;border:1px solid #2a2a36;border-radius:4px;background:#1a1a24;color:#666;font-size:0.73rem;cursor:pointer}
+  .date-row button:hover{border-color:#e74c3c;color:#e74c3c}
+
+  .search-box{margin-bottom:12px;position:relative}
+  .search-box input{
+    width:100%;padding:8px 14px 8px 34px;border:1px solid #2a2a36;
+    border-radius:4px;font-size:0.84rem;background:#1a1a24;color:#ddd;outline:none;transition:border-color .15s;
+  }
+  .search-box input:focus{border-color:#ff8c00}
+  .search-box input::placeholder{color:#555}
+  .search-box .search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#555;font-size:0.85rem;pointer-events:none}
+  .search-results{
+    background:#1a1a24;border:1px solid #2a2a36;border-radius:4px;box-shadow:0 4px 16px rgba(0,0,0,.5);
+    margin-bottom:12px;display:none;max-height:320px;overflow-y:auto;
+  }
+  .search-results .sr-item{padding:10px 14px;border-bottom:1px solid #222230;cursor:pointer;transition:background .1s;display:block;text-decoration:none;color:inherit}
+  .search-results .sr-item:last-child{border-bottom:none}
+  .search-results .sr-item:hover{background:#22222e}
+  .sr-meta{font-size:0.73rem;color:#666;margin-bottom:3px}
+  .sr-snippet{font-size:0.8rem;color:#999;line-height:1.45}
+  .sr-snippet mark{background:#ff8c00;color:#000;padding:1px 3px;border-radius:2px}
+
+  .date-group{margin-bottom:4px}
+  .date-label{font-size:0.7rem;font-weight:600;color:#555;text-transform:uppercase;padding:12px 4px 4px;letter-spacing:0.05em;border-bottom:1px solid #1e1e28;margin-bottom:2px}
+  .email-item{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 10px;border-radius:4px;cursor:pointer;
+    border:1px solid transparent;transition:all .1s;
+  }
+  .email-item:hover{background:#1a1a26}
+  .email-item.active{background:#1e1e2e;border-color:#ff8c00}
+  .count{font-size:0.73rem;color:#555;margin-bottom:6px;padding-left:2px}
+
+  .badge{display:inline-block;padding:3px 10px;border-radius:3px;font-size:0.72rem;font-weight:600;background:#2a2a36;color:#888;white-space:nowrap}
+  .badge-morning{background:#3d3520;color:#ffc943}
+  .badge-lunch{background:#1a3324;color:#6bcf8e}
+  .badge-recap{background:#1a2740;color:#5ca8e6}
+  .badge-polymarket{background:#2d1f40;color:#b388e8}
+  .badge-short_list{background:#3d1a1e;color:#e87878}
+  .badge-analyst{background:#1a3038;color:#5cbcd0}
+  .badge-weekly{background:#3d3318;color:#e8c840}
+  .badge-monthly{background:#2a2d30;color:#a0a8b0}
+  .badge-squeeze_watch{background:#3d2020;color:#e88a6a}
+  .badge-sector_rotation{background:#1a3320;color:#6bc870}
+  .badge-block_trades{background:#3d2d18;color:#e8a848}
+
+  .reader{flex:1;display:flex;flex-direction:column;background:#f9f9f9}
+  .reader-bar{display:none;padding:10px 16px;background:#1a1a2e;color:#fff;font-size:0.85rem;align-items:center;gap:10px}
+  .reader-bar .back-btn{background:none;border:1px solid rgba(255,255,255,.2);color:#ccc;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:0.78rem}
+  .reader-bar .back-btn:hover{background:rgba(255,140,0,.15);border-color:#ff8c00;color:#ff8c00}
+  .reader-bar .reader-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .reader iframe{flex:1;border:none;width:100%}
+  .reader-placeholder{
+    flex:1;display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:8px;color:#bbb;
+  }
+  .reader-placeholder .ph-icon{font-size:2.5rem;opacity:0.4}
+  .reader-placeholder .ph-text{font-size:0.95rem}
+  .empty{text-align:center;padding:40px;color:#555}
+
+  @media(max-width:768px){
+    .layout{flex-direction:column}
+    .sidebar{width:100%;height:100%;border-right:none}
+    .reader{display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:100}
+    .reader.visible{display:flex}
+    .reader-bar{display:flex}
+  }
+  @media(min-width:769px){
+    .reader-bar{display:none}
   }
 </style>
 </head>
 <body>
 <div class="header">
-  <h1>Email Archive</h1>
+  <h1>The Intelligent <span class="accent">Investor</span></h1>
   <p>Daily market briefs &amp; reports</p>
 </div>
-<div class="container">
-  <!-- Filters -->
-  <div class="toolbar">
-    <div class="filter-row" id="typeFilters">
-      <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="recap">Nightcap</button>
-    <button class="filter-btn" data-filter="polymarket">Polymarket Pulse</button>
-    <button class="filter-btn" data-filter="morning">Morning Brief</button>
-    <button class="filter-btn" data-filter="short_list">The Short List</button>
-    <button class="filter-btn" data-filter="monthly">Monthly Wrap</button>
-    <button class="filter-btn" data-filter="lunch">MidMarket Update</button>
-    <button class="filter-btn" data-filter="block_trades">Block Trades</button>
-    <button class="filter-btn" data-filter="weekly">Weekly Wrap</button>
-    </div>
-    <div class="date-row">
-      <label>From</label>
-      <input type="date" id="dateFrom">
-      <label>To</label>
-      <input type="date" id="dateTo">
-      <button id="dateReset">Clear</button>
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-scroll">
+      <div class="toolbar">
+        <div class="filter-row" id="typeFilters">
+          <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="recap">Nightcap</button>
+      <button class="filter-btn" data-filter="polymarket">Polymarket Pulse</button>
+      <button class="filter-btn" data-filter="morning">Morning Brief</button>
+      <button class="filter-btn" data-filter="short_list">The Short List</button>
+      <button class="filter-btn" data-filter="monthly">Monthly Wrap</button>
+      <button class="filter-btn" data-filter="lunch">MidMarket Update</button>
+      <button class="filter-btn" data-filter="block_trades">Block Trades</button>
+      <button class="filter-btn" data-filter="weekly">Weekly Wrap</button>
+        </div>
+        <div class="date-row">
+          <label>From</label><input type="date" id="dateFrom">
+          <label>To</label><input type="date" id="dateTo">
+          <button id="dateReset">Clear</button>
+        </div>
+      </div>
+      <div class="search-box">
+        <span class="search-icon">&#128269;</span>
+        <input type="text" id="searchInput" placeholder="Search content...">
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <div class="count" id="rowCount"></div>
+      <div id="emailList"></div>
     </div>
   </div>
-
-  <!-- Search -->
-  <div class="search-box">
-    <span class="search-icon">&#128269;</span>
-    <input type="text" id="searchInput" placeholder="Search news content...">
-    <div class="search-hint">Search within news briefs (Morning, Lunch, Recap)</div>
+  <div class="reader" id="reader">
+    <div class="reader-bar">
+      <button class="back-btn" id="backBtn">&larr; Back</button>
+      <span class="reader-title" id="readerTitle"></span>
+    </div>
+    <div class="reader-placeholder" id="readerPlaceholder">
+      <div class="ph-icon">&#9993;</div>
+      <div class="ph-text">Select an email to read</div>
+    </div>
+    <iframe id="readerFrame" style="display:none" sandbox="allow-same-origin"></iframe>
   </div>
-  <div class="search-results" id="searchResults"></div>
-
-  <!-- Email list -->
-  <div class="count" id="rowCount"></div>
-  <table>
-    <thead><tr><th>Date</th><th>Type</th><th></th></tr></thead>
-    <tbody id="emailBody"></tbody>
-  </table>
 </div>
-
 <script>
-const ROWS = [{"date": "2026-05-02", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-02_polymarket.html"}, {"date": "2026-05-02", "slug": "recap", "display": "Nightcap", "file": "2026-05-02_recap.html"}, {"date": "2026-05-02", "slug": "morning", "display": "Morning Brief", "file": "2026-05-02_morning.html"}, {"date": "2026-05-01", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-01_polymarket.html"}, {"date": "2026-05-01", "slug": "recap", "display": "Nightcap", "file": "2026-05-01_recap.html"}, {"date": "2026-05-01", "slug": "morning", "display": "Morning Brief", "file": "2026-05-01_morning.html"}, {"date": "2026-04-30", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-30_block_trades.html"}, {"date": "2026-04-30", "slug": "monthly", "display": "Monthly Wrap", "file": "2026-04-30_monthly.html"}, {"date": "2026-04-30", "slug": "short_list", "display": "The Short List", "file": "2026-04-30_short_list.html"}, {"date": "2026-04-30", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-30_polymarket.html"}, {"date": "2026-04-30", "slug": "recap", "display": "Nightcap", "file": "2026-04-30_recap.html"}, {"date": "2026-04-30", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-30_lunch.html"}, {"date": "2026-04-30", "slug": "morning", "display": "Morning Brief", "file": "2026-04-30_morning.html"}, {"date": "2026-04-29", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-29_block_trades.html"}, {"date": "2026-04-29", "slug": "short_list", "display": "The Short List", "file": "2026-04-29_short_list.html"}, {"date": "2026-04-29", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-29_polymarket.html"}, {"date": "2026-04-29", "slug": "recap", "display": "Nightcap", "file": "2026-04-29_recap.html"}, {"date": "2026-04-29", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-29_lunch.html"}, {"date": "2026-04-29", "slug": "morning", "display": "Morning Brief", "file": "2026-04-29_morning.html"}, {"date": "2026-04-28", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-28_block_trades.html"}, {"date": "2026-04-28", "slug": "short_list", "display": "The Short List", "file": "2026-04-28_short_list.html"}, {"date": "2026-04-28", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-28_polymarket.html"}, {"date": "2026-04-28", "slug": "recap", "display": "Nightcap", "file": "2026-04-28_recap.html"}, {"date": "2026-04-28", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-28_lunch.html"}, {"date": "2026-04-28", "slug": "morning", "display": "Morning Brief", "file": "2026-04-28_morning.html"}, {"date": "2026-04-27", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-27_block_trades.html"}, {"date": "2026-04-27", "slug": "short_list", "display": "The Short List", "file": "2026-04-27_short_list.html"}, {"date": "2026-04-27", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-27_polymarket.html"}, {"date": "2026-04-27", "slug": "recap", "display": "Nightcap", "file": "2026-04-27_recap.html"}, {"date": "2026-04-27", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-27_lunch.html"}, {"date": "2026-04-27", "slug": "morning", "display": "Morning Brief", "file": "2026-04-27_morning.html"}, {"date": "2026-04-26", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-26_polymarket.html"}, {"date": "2026-04-26", "slug": "recap", "display": "Nightcap", "file": "2026-04-26_recap.html"}, {"date": "2026-04-25", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-25_polymarket.html"}, {"date": "2026-04-25", "slug": "recap", "display": "Nightcap", "file": "2026-04-25_recap.html"}, {"date": "2026-04-25", "slug": "morning", "display": "Morning Brief", "file": "2026-04-25_morning.html"}, {"date": "2026-04-24", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-24_block_trades.html"}, {"date": "2026-04-24", "slug": "weekly", "display": "Weekly Wrap", "file": "2026-04-24_weekly.html"}, {"date": "2026-04-24", "slug": "short_list", "display": "The Short List", "file": "2026-04-24_short_list.html"}, {"date": "2026-04-24", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-24_polymarket.html"}, {"date": "2026-04-24", "slug": "recap", "display": "Nightcap", "file": "2026-04-24_recap.html"}, {"date": "2026-04-24", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-24_lunch.html"}, {"date": "2026-04-24", "slug": "morning", "display": "Morning Brief", "file": "2026-04-24_morning.html"}, {"date": "2026-04-23", "slug": "morning", "display": "Morning Brief", "file": "2026-04-23_morning.html"}, {"date": "2026-04-22", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-22_block_trades.html"}, {"date": "2026-04-22", "slug": "short_list", "display": "The Short List", "file": "2026-04-22_short_list.html"}, {"date": "2026-04-22", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-22_polymarket.html"}, {"date": "2026-04-22", "slug": "recap", "display": "Nightcap", "file": "2026-04-22_recap.html"}, {"date": "2026-04-22", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-22_lunch.html"}, {"date": "2026-04-22", "slug": "morning", "display": "Morning Brief", "file": "2026-04-22_morning.html"}];
-let searchIndex = null;
-let activeType = "all";
-let dateFrom = "";
-let dateTo = "";
+const ROWS=[{"date": "2026-05-02", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-02_polymarket.html"}, {"date": "2026-05-02", "slug": "recap", "display": "Nightcap", "file": "2026-05-02_recap.html"}, {"date": "2026-05-02", "slug": "morning", "display": "Morning Brief", "file": "2026-05-02_morning.html"}, {"date": "2026-05-01", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-01_polymarket.html"}, {"date": "2026-05-01", "slug": "recap", "display": "Nightcap", "file": "2026-05-01_recap.html"}, {"date": "2026-05-01", "slug": "morning", "display": "Morning Brief", "file": "2026-05-01_morning.html"}, {"date": "2026-04-30", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-30_block_trades.html"}, {"date": "2026-04-30", "slug": "monthly", "display": "Monthly Wrap", "file": "2026-04-30_monthly.html"}, {"date": "2026-04-30", "slug": "short_list", "display": "The Short List", "file": "2026-04-30_short_list.html"}, {"date": "2026-04-30", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-30_polymarket.html"}, {"date": "2026-04-30", "slug": "recap", "display": "Nightcap", "file": "2026-04-30_recap.html"}, {"date": "2026-04-30", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-30_lunch.html"}, {"date": "2026-04-30", "slug": "morning", "display": "Morning Brief", "file": "2026-04-30_morning.html"}, {"date": "2026-04-29", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-29_block_trades.html"}, {"date": "2026-04-29", "slug": "short_list", "display": "The Short List", "file": "2026-04-29_short_list.html"}, {"date": "2026-04-29", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-29_polymarket.html"}, {"date": "2026-04-29", "slug": "recap", "display": "Nightcap", "file": "2026-04-29_recap.html"}, {"date": "2026-04-29", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-29_lunch.html"}, {"date": "2026-04-29", "slug": "morning", "display": "Morning Brief", "file": "2026-04-29_morning.html"}, {"date": "2026-04-28", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-28_block_trades.html"}, {"date": "2026-04-28", "slug": "short_list", "display": "The Short List", "file": "2026-04-28_short_list.html"}, {"date": "2026-04-28", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-28_polymarket.html"}, {"date": "2026-04-28", "slug": "recap", "display": "Nightcap", "file": "2026-04-28_recap.html"}, {"date": "2026-04-28", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-28_lunch.html"}, {"date": "2026-04-28", "slug": "morning", "display": "Morning Brief", "file": "2026-04-28_morning.html"}, {"date": "2026-04-27", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-27_block_trades.html"}, {"date": "2026-04-27", "slug": "short_list", "display": "The Short List", "file": "2026-04-27_short_list.html"}, {"date": "2026-04-27", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-27_polymarket.html"}, {"date": "2026-04-27", "slug": "recap", "display": "Nightcap", "file": "2026-04-27_recap.html"}, {"date": "2026-04-27", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-27_lunch.html"}, {"date": "2026-04-27", "slug": "morning", "display": "Morning Brief", "file": "2026-04-27_morning.html"}, {"date": "2026-04-26", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-26_polymarket.html"}, {"date": "2026-04-26", "slug": "recap", "display": "Nightcap", "file": "2026-04-26_recap.html"}, {"date": "2026-04-25", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-25_polymarket.html"}, {"date": "2026-04-25", "slug": "recap", "display": "Nightcap", "file": "2026-04-25_recap.html"}, {"date": "2026-04-25", "slug": "morning", "display": "Morning Brief", "file": "2026-04-25_morning.html"}, {"date": "2026-04-24", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-24_block_trades.html"}, {"date": "2026-04-24", "slug": "weekly", "display": "Weekly Wrap", "file": "2026-04-24_weekly.html"}, {"date": "2026-04-24", "slug": "short_list", "display": "The Short List", "file": "2026-04-24_short_list.html"}, {"date": "2026-04-24", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-24_polymarket.html"}, {"date": "2026-04-24", "slug": "recap", "display": "Nightcap", "file": "2026-04-24_recap.html"}, {"date": "2026-04-24", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-24_lunch.html"}, {"date": "2026-04-24", "slug": "morning", "display": "Morning Brief", "file": "2026-04-24_morning.html"}, {"date": "2026-04-23", "slug": "morning", "display": "Morning Brief", "file": "2026-04-23_morning.html"}, {"date": "2026-04-22", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-22_block_trades.html"}, {"date": "2026-04-22", "slug": "short_list", "display": "The Short List", "file": "2026-04-22_short_list.html"}, {"date": "2026-04-22", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-22_polymarket.html"}, {"date": "2026-04-22", "slug": "recap", "display": "Nightcap", "file": "2026-04-22_recap.html"}, {"date": "2026-04-22", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-22_lunch.html"}, {"date": "2026-04-22", "slug": "morning", "display": "Morning Brief", "file": "2026-04-22_morning.html"}];
+const DISPLAY={"morning": "Morning Brief", "lunch": "MidMarket Update", "recap": "Nightcap", "polymarket": "Polymarket Pulse", "short_list": "The Short List", "analyst": "Analyst Reports", "weekly": "Weekly Wrap", "monthly": "Monthly Wrap", "squeeze_watch": "Squeeze Watch", "sector_rotation": "Sector Rotation", "block_trades": "Block Trades"};
 
-// ── Render table ──
+let searchIndex=null, activeType="all", dateFrom="", dateTo="", activeFile="";
+
+function openEmail(file, title) {
+  activeFile = file;
+  var frame = document.getElementById("readerFrame");
+  var ph = document.getElementById("readerPlaceholder");
+  var reader = document.getElementById("reader");
+  frame.src = "emails/" + file;
+  frame.style.display = "block";
+  ph.style.display = "none";
+  document.getElementById("readerTitle").textContent = title;
+  reader.classList.add("visible");
+  document.querySelectorAll(".email-item").forEach(function(el) {
+    el.classList.toggle("active", el.dataset.file === file);
+  });
+}
+
+function closeReader() {
+  document.getElementById("reader").classList.remove("visible");
+}
+
 function render() {
-  const tbody = document.getElementById("emailBody");
-  const filtered = ROWS.filter(r => {
+  var list = document.getElementById("emailList");
+  var filtered = ROWS.filter(function(r) {
     if (activeType !== "all" && r.slug !== activeType) return false;
     if (dateFrom && r.date < dateFrom) return false;
     if (dateTo && r.date > dateTo) return false;
@@ -156,96 +190,76 @@ function render() {
   document.getElementById("rowCount").textContent =
     filtered.length ? filtered.length + " emails" : "";
   if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="3" class="empty">No emails found.</td></tr>';
+    list.innerHTML = '<div class="empty">No emails found.</div>';
     return;
   }
-  tbody.innerHTML = filtered.map(r =>
-    '<tr><td>' + r.date + '</td>' +
-    '<td><span class="badge badge-' + r.slug + '">' + r.display + '</span></td>' +
-    '<td><a href="emails/' + r.file + '">View &rarr;</a></td></tr>'
-  ).join("");
+  var html = "", lastDate = "";
+  filtered.forEach(function(r) {
+    if (r.date !== lastDate) {
+      lastDate = r.date;
+      var d = new Date(r.date + "T00:00:00");
+      var label = d.toLocaleDateString("en-US", {weekday:"short",month:"short",day:"numeric"});
+      html += '<div class="date-label">' + label + '</div>';
+    }
+    var act = r.file === activeFile ? " active" : "";
+    var safeDisplay = r.display.replace(/'/g, "\'");
+    html += '<div class="email-item' + act + '" data-file="' + r.file + '" '
+      + "onclick=\"openEmail('" + r.file + "','" + safeDisplay + " \u2014 " + r.date + "')\">"
+      + '<span class="badge badge-' + r.slug + '">' + r.display + '</span>'
+      + '</div>';
+  });
+  list.innerHTML = html;
 }
 
-// ── Type filter buttons ──
-document.getElementById("typeFilters").addEventListener("click", e => {
+document.getElementById("typeFilters").addEventListener("click", function(e) {
   if (!e.target.classList.contains("filter-btn")) return;
-  document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".filter-btn").forEach(function(b) { b.classList.remove("active"); });
   e.target.classList.add("active");
   activeType = e.target.dataset.filter;
   render();
 });
+document.getElementById("dateFrom").addEventListener("change", function(e) { dateFrom=e.target.value; render(); });
+document.getElementById("dateTo").addEventListener("change", function(e) { dateTo=e.target.value; render(); });
+document.getElementById("dateReset").addEventListener("click", function() {
+  dateFrom=""; dateTo="";
+  document.getElementById("dateFrom").value="";
+  document.getElementById("dateTo").value="";
+  render();
+});
+document.getElementById("backBtn").addEventListener("click", closeReader);
 
-// ── Date range filter ──
-document.getElementById("dateFrom").addEventListener("change", e => {
-  dateFrom = e.target.value;
-  render();
-});
-document.getElementById("dateTo").addEventListener("change", e => {
-  dateTo = e.target.value;
-  render();
-});
-document.getElementById("dateReset").addEventListener("click", () => {
-  dateFrom = ""; dateTo = "";
-  document.getElementById("dateFrom").value = "";
-  document.getElementById("dateTo").value = "";
-  render();
-});
-
-// ── Search ──
-let searchTimer = null;
-document.getElementById("searchInput").addEventListener("input", e => {
+var searchTimer=null;
+document.getElementById("searchInput").addEventListener("input", function(e) {
   clearTimeout(searchTimer);
-  const q = e.target.value.trim();
-  if (q.length < 2) {
-    document.getElementById("searchResults").style.display = "none";
-    return;
-  }
-  searchTimer = setTimeout(() => doSearch(q), 250);
+  var q=e.target.value.trim();
+  if(q.length<2){ document.getElementById("searchResults").style.display="none"; return; }
+  searchTimer=setTimeout(function(){doSearch(q)},250);
 });
 
 async function doSearch(query) {
-  if (!searchIndex) {
-    try {
-      const res = await fetch("search_index.json");
-      searchIndex = await res.json();
-    } catch(e) {
-      document.getElementById("searchResults").innerHTML =
-        '<div class="sr-item"><div class="sr-snippet">Search index not available yet.</div></div>';
-      document.getElementById("searchResults").style.display = "block";
-      return;
-    }
+  if(!searchIndex){
+    try{ var res=await fetch("search_index.json"); searchIndex=await res.json(); }
+    catch(e){ document.getElementById("searchResults").innerHTML='<div class="sr-item"><div class="sr-snippet">Search index unavailable.</div></div>'; document.getElementById("searchResults").style.display="block"; return; }
   }
-  const q = query.toLowerCase();
-  const results = searchIndex.filter(item => item.text.toLowerCase().includes(q)).slice(0, 15);
-  const container = document.getElementById("searchResults");
-  if (!results.length) {
-    container.innerHTML = '<div class="sr-item"><div class="sr-snippet">No results found.</div></div>';
-    container.style.display = "block";
-    return;
-  }
-  container.innerHTML = results.map(r => {
-    const idx = r.text.toLowerCase().indexOf(q);
-    const start = Math.max(0, idx - 60);
-    const end = Math.min(r.text.length, idx + query.length + 60);
-    let snippet = (start > 0 ? "..." : "") +
-      r.text.slice(start, idx) +
-      "<mark>" + r.text.slice(idx, idx + query.length) + "</mark>" +
-      r.text.slice(idx + query.length, end) +
-      (end < r.text.length ? "..." : "");
-    const display = {"morning": "Morning Brief", "lunch": "MidMarket Update", "recap": "Nightcap", "polymarket": "Polymarket Pulse", "short_list": "The Short List", "analyst": "Analyst Reports", "weekly": "Weekly Wrap", "monthly": "Monthly Wrap", "squeeze_watch": "Squeeze Watch", "sector_rotation": "Sector Rotation", "block_trades": "Block Trades"};
-    const label = display[r.slug] || r.slug;
-    return '<a href="emails/' + r.file + '" class="sr-item" style="display:block;text-decoration:none;color:inherit;">' +
-      '<div class="sr-meta">' + r.date + ' &middot; ' + label + '</div>' +
-      '<div class="sr-snippet">' + snippet + '</div></a>';
+  var q=query.toLowerCase();
+  var results=searchIndex.filter(function(i){return i.text.toLowerCase().includes(q)}).slice(0,15);
+  var c=document.getElementById("searchResults");
+  if(!results.length){ c.innerHTML='<div class="sr-item"><div class="sr-snippet">No results.</div></div>'; c.style.display="block"; return; }
+  c.innerHTML=results.map(function(r){
+    var idx=r.text.toLowerCase().indexOf(q);
+    var s=Math.max(0,idx-60), e=Math.min(r.text.length,idx+query.length+60);
+    var snip=(s>0?"...":"")+r.text.slice(s,idx)+"<mark>"+r.text.slice(idx,idx+query.length)+"</mark>"+r.text.slice(idx+query.length,e)+(e<r.text.length?"...":"");
+    var label=DISPLAY[r.slug]||r.slug;
+    var safeLabel=label.replace(/'/g,"\'");
+    return '<div class="sr-item" onclick="openEmail(\'' + r.file + "','" + safeLabel + " \u2014 " + r.date + "\');document.getElementById(\'searchResults\').style.display=\'none\'\">"
+      +'<div class="sr-meta">'+r.date+' &middot; '+label+'</div>'
+      +'<div class="sr-snippet">'+snip+'</div></div>';
   }).join("");
-  container.style.display = "block";
+  c.style.display="block";
 }
-
-// hide search results when clicking outside
-document.addEventListener("click", e => {
-  if (!e.target.closest(".search-box") && !e.target.closest(".search-results")) {
-    document.getElementById("searchResults").style.display = "none";
-  }
+document.addEventListener("click",function(e){
+  if(!e.target.closest(".search-box")&&!e.target.closest(".search-results"))
+    document.getElementById("searchResults").style.display="none";
 });
 
 render();
