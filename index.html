@@ -405,10 +405,12 @@ async function loadChart(ticker, name) {
     return;
   }
 
-  // Prepare series data
+  // Prepare series data — only show data from 2025-03-30 onwards
+  var cutoff = "2025-03-30";
   var priceData = [], balData = [];
   data.forEach(function(r) {
     var d = r.d.slice(0,4)+"-"+r.d.slice(4,6)+"-"+r.d.slice(6);
+    if (d < cutoff) return;
     if (r.p !== null) priceData.push({time: d, value: r.p});
     if (r.b !== null) balData.push({time: d, value: r.b});
   });
