@@ -187,6 +187,30 @@
       </div>
       <div class="chart-title" id="chartTitle">Search a ticker to view Price + Short Balance Notional</div>
       <div id="chartContainer"></div>
+      <div id="chartMethodology" style="display:none;margin-top:14px;padding:14px 16px;
+           background:#111119;border:1px solid #1e1e30;border-radius:6px;
+           font-size:0.75rem;color:#666;line-height:1.7;">
+        <div style="font-weight:700;color:#f59e0b;margin-bottom:6px;font-size:0.8rem;">
+          Est. Cost Basis Methodology</div>
+        <div>Rolling weighted-average entry price of outstanding short positions.</div>
+        <div style="margin-top:6px;">
+          <b style="color:#999;">When short balance increases</b> (new shorts opened):<br>
+          &nbsp;&nbsp;avg_cost = (prev_cost &times; prev_bal + close_price &times; new_shares) / total_bal
+        </div>
+        <div style="margin-top:4px;">
+          <b style="color:#999;">When short balance decreases</b> (shorts covered):<br>
+          &nbsp;&nbsp;avg_cost unchanged (remaining shorts keep their weighted avg)
+        </div>
+        <div style="margin-top:8px;color:#888;">
+          <b>Interpretation:</b> Price above cost basis = shorts are underwater (squeeze pressure).
+          Price below cost basis = shorts are profitable (less pressure).
+        </div>
+        <div style="margin-top:6px;color:#555;font-size:0.7rem;">
+          Limitations: Short balance is T+2 disclosure. Entry price approximated by closing price.
+          Balance change is net (intraday open+cover activity is not captured).
+          Initial cost basis assumes the first available closing price.
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -353,7 +377,7 @@ document.addEventListener("click",function(e){
 
 // ── Chart panel: ticker search + Lightweight Charts ──
 var tickerList = null;
-var lwChart = null, priceSeries = null, balSeries = null;
+var lwChart = null, priceSeries = null, balSeries = null, costSeries = null;
 
 async function loadTickerList() {
   if (tickerList) return;
@@ -407,12 +431,13 @@ async function loadChart(ticker, name) {
 
   // Prepare series data — only show data from 2025-03-30 onwards
   var cutoff = "2025-03-30";
-  var priceData = [], balData = [];
+  var priceData = [], balData = [], costData = [];
   data.forEach(function(r) {
     var d = r.d.slice(0,4)+"-"+r.d.slice(4,6)+"-"+r.d.slice(6);
     if (d < cutoff) return;
     if (r.p !== null) priceData.push({time: d, value: r.p});
     if (r.b !== null) balData.push({time: d, value: r.b});
+    if (r.c !== null && r.c !== undefined) costData.push({time: d, value: r.c});
   });
 
   // Create or recreate chart
@@ -448,6 +473,19 @@ async function loadChart(ticker, name) {
     title: "Short Bal (억)",
   });
   balSeries.setData(balData);
+
+  // Cost basis on right axis (same scale as price)
+  costSeries = lwChart.addLineSeries({
+    color: "#f59e0b",
+    lineWidth: 1,
+    lineStyle: 2,  // dashed
+    priceScaleId: "right",
+    title: "Est. Cost Basis",
+  });
+  costSeries.setData(costData);
+
+  // Show methodology note
+  document.getElementById("chartMethodology").style.display = "block";
 
   // Clip X-axis to the range where bal_pct data exists
   if (balData.length >= 2) {
