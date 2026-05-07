@@ -104,6 +104,27 @@
   .reader-placeholder .ph-text{font-size:0.95rem}
   .empty{text-align:center;padding:40px;color:#555}
 
+  /* Chart panel — visible only on Short Data tab */
+  .chart-panel{display:none;padding:16px;background:#0d0d18;border-bottom:1px solid #1e1e30}
+  .chart-panel.visible{display:block}
+  .chart-search-wrap{position:relative;max-width:400px;margin-bottom:12px}
+  .chart-search-wrap input{
+    width:100%;padding:10px 14px;border:1px solid #2a2a36;border-radius:6px;
+    font-size:0.9rem;background:#1a1a24;color:#eee;outline:none;
+  }
+  .chart-search-wrap input:focus{border-color:#ff8c00}
+  .chart-search-wrap input::placeholder{color:#555}
+  .chart-ac{
+    position:absolute;top:100%;left:0;right:0;z-index:50;
+    background:#1a1a24;border:1px solid #2a2a36;border-radius:4px;
+    max-height:200px;overflow-y:auto;display:none;
+  }
+  .chart-ac div{padding:8px 12px;cursor:pointer;font-size:0.82rem;color:#ccc;border-bottom:1px solid #222}
+  .chart-ac div:hover{background:#22222e;color:#fff}
+  .chart-ac .ac-ticker{color:#ff8c00;font-weight:700;margin-right:8px}
+  .chart-title{font-size:0.82rem;color:#888;margin-bottom:8px}
+  #chartContainer{height:350px;border-radius:6px;overflow:hidden}
+
   @media(max-width:768px){
     .layout{flex-direction:column}
     .sidebar{width:100%;height:100%;border-right:none}
@@ -128,6 +149,14 @@
     <div class="tab" data-tab="short_data">Short Data</div>
     <div class="tab" data-tab="polymarket">Polymarket</div>
   </div>
+</div>
+<div class="chart-panel" id="chartPanel">
+  <div class="chart-search-wrap">
+    <input type="text" id="tickerInput" placeholder="Search ticker or name (e.g. 005930 or Samsung)">
+    <div class="chart-ac" id="tickerAC"></div>
+  </div>
+  <div class="chart-title" id="chartTitle"></div>
+  <div id="chartContainer"></div>
 </div>
 <div class="layout">
   <div class="sidebar">
@@ -161,6 +190,7 @@
     <iframe id="readerFrame" style="display:none" sandbox="allow-same-origin"></iframe>
   </div>
 </div>
+<script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
 <script>
 const ROWS=[{"date": "2026-05-07", "slug": "buyback", "display": "Buyback", "file": "2026-05-07_buyback.html", "tab": "supply_demand"}, {"date": "2026-05-07", "slug": "short_list", "display": "The Short List", "file": "2026-05-07_short_list.html", "tab": "short_data"}, {"date": "2026-05-07", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-07_polymarket.html", "tab": "polymarket"}, {"date": "2026-05-07", "slug": "recap", "display": "Nightcap", "file": "2026-05-07_recap.html", "tab": "news"}, {"date": "2026-05-07", "slug": "lunch", "display": "MidMarket Update", "file": "2026-05-07_lunch.html", "tab": "news"}, {"date": "2026-05-07", "slug": "morning", "display": "Morning Brief", "file": "2026-05-07_morning.html", "tab": "news"}, {"date": "2026-05-06", "slug": "buyback", "display": "Buyback", "file": "2026-05-06_buyback.html", "tab": "supply_demand"}, {"date": "2026-05-06", "slug": "block_trades", "display": "Block Trades", "file": "2026-05-06_block_trades.html", "tab": "supply_demand"}, {"date": "2026-05-06", "slug": "short_list", "display": "The Short List", "file": "2026-05-06_short_list.html", "tab": "short_data"}, {"date": "2026-05-06", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-06_polymarket.html", "tab": "polymarket"}, {"date": "2026-05-06", "slug": "recap", "display": "Nightcap", "file": "2026-05-06_recap.html", "tab": "news"}, {"date": "2026-05-06", "slug": "lunch", "display": "MidMarket Update", "file": "2026-05-06_lunch.html", "tab": "news"}, {"date": "2026-05-06", "slug": "morning", "display": "Morning Brief", "file": "2026-05-06_morning.html", "tab": "news"}, {"date": "2026-05-05", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-05_polymarket.html", "tab": "polymarket"}, {"date": "2026-05-05", "slug": "recap", "display": "Nightcap", "file": "2026-05-05_recap.html", "tab": "news"}, {"date": "2026-05-05", "slug": "morning", "display": "Morning Brief", "file": "2026-05-05_morning.html", "tab": "news"}, {"date": "2026-05-04", "slug": "block_trades", "display": "Block Trades", "file": "2026-05-04_block_trades.html", "tab": "supply_demand"}, {"date": "2026-05-04", "slug": "short_list", "display": "The Short List", "file": "2026-05-04_short_list.html", "tab": "short_data"}, {"date": "2026-05-04", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-04_polymarket.html", "tab": "polymarket"}, {"date": "2026-05-04", "slug": "recap", "display": "Nightcap", "file": "2026-05-04_recap.html", "tab": "news"}, {"date": "2026-05-04", "slug": "lunch", "display": "MidMarket Update", "file": "2026-05-04_lunch.html", "tab": "news"}, {"date": "2026-05-04", "slug": "morning", "display": "Morning Brief", "file": "2026-05-04_morning.html", "tab": "news"}, {"date": "2026-05-03", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-03_polymarket.html", "tab": "polymarket"}, {"date": "2026-05-03", "slug": "recap", "display": "Nightcap", "file": "2026-05-03_recap.html", "tab": "news"}, {"date": "2026-05-02", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-02_polymarket.html", "tab": "polymarket"}, {"date": "2026-05-02", "slug": "recap", "display": "Nightcap", "file": "2026-05-02_recap.html", "tab": "news"}, {"date": "2026-05-02", "slug": "morning", "display": "Morning Brief", "file": "2026-05-02_morning.html", "tab": "news"}, {"date": "2026-05-01", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-05-01_polymarket.html", "tab": "polymarket"}, {"date": "2026-05-01", "slug": "recap", "display": "Nightcap", "file": "2026-05-01_recap.html", "tab": "news"}, {"date": "2026-05-01", "slug": "morning", "display": "Morning Brief", "file": "2026-05-01_morning.html", "tab": "news"}, {"date": "2026-04-30", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-30_block_trades.html", "tab": "supply_demand"}, {"date": "2026-04-30", "slug": "monthly", "display": "Monthly Wrap", "file": "2026-04-30_monthly.html", "tab": "news"}, {"date": "2026-04-30", "slug": "short_list", "display": "The Short List", "file": "2026-04-30_short_list.html", "tab": "short_data"}, {"date": "2026-04-30", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-30_polymarket.html", "tab": "polymarket"}, {"date": "2026-04-30", "slug": "recap", "display": "Nightcap", "file": "2026-04-30_recap.html", "tab": "news"}, {"date": "2026-04-30", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-30_lunch.html", "tab": "news"}, {"date": "2026-04-30", "slug": "morning", "display": "Morning Brief", "file": "2026-04-30_morning.html", "tab": "news"}, {"date": "2026-04-29", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-29_block_trades.html", "tab": "supply_demand"}, {"date": "2026-04-29", "slug": "short_list", "display": "The Short List", "file": "2026-04-29_short_list.html", "tab": "short_data"}, {"date": "2026-04-29", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-29_polymarket.html", "tab": "polymarket"}, {"date": "2026-04-29", "slug": "recap", "display": "Nightcap", "file": "2026-04-29_recap.html", "tab": "news"}, {"date": "2026-04-29", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-29_lunch.html", "tab": "news"}, {"date": "2026-04-29", "slug": "morning", "display": "Morning Brief", "file": "2026-04-29_morning.html", "tab": "news"}, {"date": "2026-04-28", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-28_block_trades.html", "tab": "supply_demand"}, {"date": "2026-04-28", "slug": "short_list", "display": "The Short List", "file": "2026-04-28_short_list.html", "tab": "short_data"}, {"date": "2026-04-28", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-28_polymarket.html", "tab": "polymarket"}, {"date": "2026-04-28", "slug": "recap", "display": "Nightcap", "file": "2026-04-28_recap.html", "tab": "news"}, {"date": "2026-04-28", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-28_lunch.html", "tab": "news"}, {"date": "2026-04-28", "slug": "morning", "display": "Morning Brief", "file": "2026-04-28_morning.html", "tab": "news"}, {"date": "2026-04-27", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-27_block_trades.html", "tab": "supply_demand"}, {"date": "2026-04-27", "slug": "short_list", "display": "The Short List", "file": "2026-04-27_short_list.html", "tab": "short_data"}, {"date": "2026-04-27", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-27_polymarket.html", "tab": "polymarket"}, {"date": "2026-04-27", "slug": "recap", "display": "Nightcap", "file": "2026-04-27_recap.html", "tab": "news"}, {"date": "2026-04-27", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-27_lunch.html", "tab": "news"}, {"date": "2026-04-27", "slug": "morning", "display": "Morning Brief", "file": "2026-04-27_morning.html", "tab": "news"}, {"date": "2026-04-26", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-26_polymarket.html", "tab": "polymarket"}, {"date": "2026-04-26", "slug": "recap", "display": "Nightcap", "file": "2026-04-26_recap.html", "tab": "news"}, {"date": "2026-04-25", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-25_polymarket.html", "tab": "polymarket"}, {"date": "2026-04-25", "slug": "recap", "display": "Nightcap", "file": "2026-04-25_recap.html", "tab": "news"}, {"date": "2026-04-25", "slug": "morning", "display": "Morning Brief", "file": "2026-04-25_morning.html", "tab": "news"}, {"date": "2026-04-24", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-24_block_trades.html", "tab": "supply_demand"}, {"date": "2026-04-24", "slug": "weekly", "display": "Weekly Wrap", "file": "2026-04-24_weekly.html", "tab": "news"}, {"date": "2026-04-24", "slug": "short_list", "display": "The Short List", "file": "2026-04-24_short_list.html", "tab": "short_data"}, {"date": "2026-04-24", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-24_polymarket.html", "tab": "polymarket"}, {"date": "2026-04-24", "slug": "recap", "display": "Nightcap", "file": "2026-04-24_recap.html", "tab": "news"}, {"date": "2026-04-24", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-24_lunch.html", "tab": "news"}, {"date": "2026-04-24", "slug": "morning", "display": "Morning Brief", "file": "2026-04-24_morning.html", "tab": "news"}, {"date": "2026-04-23", "slug": "morning", "display": "Morning Brief", "file": "2026-04-23_morning.html", "tab": "news"}, {"date": "2026-04-22", "slug": "block_trades", "display": "Block Trades", "file": "2026-04-22_block_trades.html", "tab": "supply_demand"}, {"date": "2026-04-22", "slug": "short_list", "display": "The Short List", "file": "2026-04-22_short_list.html", "tab": "short_data"}, {"date": "2026-04-22", "slug": "polymarket", "display": "Polymarket Pulse", "file": "2026-04-22_polymarket.html", "tab": "polymarket"}, {"date": "2026-04-22", "slug": "recap", "display": "Nightcap", "file": "2026-04-22_recap.html", "tab": "news"}, {"date": "2026-04-22", "slug": "lunch", "display": "MidMarket Update", "file": "2026-04-22_lunch.html", "tab": "news"}, {"date": "2026-04-22", "slug": "morning", "display": "Morning Brief", "file": "2026-04-22_morning.html", "tab": "news"}];
 const DISPLAY={"morning": "Morning Brief", "lunch": "MidMarket Update", "recap": "Nightcap", "polymarket": "Polymarket Pulse", "short_list": "The Short List", "analyst": "Analyst Reports", "weekly": "Weekly Wrap", "monthly": "Monthly Wrap", "squeeze_watch": "Squeeze Watch", "sector_rotation": "Sector Rotation", "block_trades": "Block Trades", "lockup_expiry": "Lockup Expiry", "buyback": "Buyback"};
@@ -240,6 +270,11 @@ document.getElementById("mainTabs").addEventListener("click", function(e) {
   activeType = "all";
   buildFilters();
   render();
+  // Show chart panel only on Short Data tab
+  document.getElementById("chartPanel").classList.toggle("visible", activeTab === "short_data");
+  // Adjust layout height when chart panel is visible
+  var lh = activeTab === "short_data" ? "calc(100vh - 110px - 430px)" : "calc(100vh - 110px)";
+  document.querySelector(".layout").style.height = lh;
 });
 
 // Sub-filter switching
@@ -294,6 +329,110 @@ document.addEventListener("click",function(e){
   if(!e.target.closest(".search-box")&&!e.target.closest(".search-results"))
     document.getElementById("searchResults").style.display="none";
 });
+
+// ── Chart panel: ticker search + Lightweight Charts ──
+var tickerList = null;
+var lwChart = null, priceSeries = null, balSeries = null;
+
+async function loadTickerList() {
+  if (tickerList) return;
+  try {
+    var res = await fetch("data/_tickers.json");
+    tickerList = await res.json();
+  } catch(e) { tickerList = []; }
+}
+
+document.getElementById("tickerInput").addEventListener("input", async function(e) {
+  await loadTickerList();
+  var q = e.target.value.trim().toLowerCase();
+  var ac = document.getElementById("tickerAC");
+  if (q.length < 1) { ac.style.display = "none"; return; }
+  var matches = tickerList.filter(function(t) {
+    return t.t.includes(q) || t.n.toLowerCase().includes(q);
+  }).slice(0, 10);
+  if (!matches.length) { ac.style.display = "none"; return; }
+  ac.innerHTML = matches.map(function(m) {
+    return '<div onclick="loadChart(\''+m.t+'\',\''+m.n.replace(/'/g,"")+'\')"><span class=\"ac-ticker\">'+m.t+'</span>'+m.n+'</div>';
+  }).join("");
+  ac.style.display = "block";
+});
+
+document.getElementById("tickerInput").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    var val = e.target.value.trim();
+    if (val.length >= 4) loadChart(val.replace(/[^0-9A-Za-z]/g,""), "");
+  }
+});
+
+document.addEventListener("click", function(e) {
+  if (!e.target.closest(".chart-search-wrap"))
+    document.getElementById("tickerAC").style.display = "none";
+});
+
+async function loadChart(ticker, name) {
+  document.getElementById("tickerAC").style.display = "none";
+  document.getElementById("tickerInput").value = ticker + (name ? " " + name : "");
+  document.getElementById("chartTitle").textContent = ticker + (name ? " — " + name : "") + " (Price + Short Balance Ratio)";
+
+  var data;
+  try {
+    var res = await fetch("data/" + ticker + ".json");
+    if (!res.ok) throw new Error(res.status);
+    data = await res.json();
+  } catch(e) {
+    document.getElementById("chartTitle").textContent = ticker + " — data not available";
+    return;
+  }
+
+  // Prepare series data
+  var priceData = [], balData = [];
+  data.forEach(function(r) {
+    var d = r.d.slice(0,4)+"-"+r.d.slice(4,6)+"-"+r.d.slice(6);
+    if (r.p !== null) priceData.push({time: d, value: r.p});
+    if (r.b !== null) balData.push({time: d, value: r.b});
+  });
+
+  // Create or recreate chart
+  var container = document.getElementById("chartContainer");
+  container.innerHTML = "";
+  lwChart = LightweightCharts.createChart(container, {
+    width: container.clientWidth,
+    height: 350,
+    layout: { background: {type:"solid",color:"#0d0d18"}, textColor: "#888" },
+    grid: { vertLines: {color:"#1e1e30"}, horzLines: {color:"#1e1e30"} },
+    rightPriceScale: { borderColor: "#2a2a36" },
+    leftPriceScale: { visible: true, borderColor: "#2a2a36" },
+    timeScale: { borderColor: "#2a2a36" },
+    crosshair: { mode: 0 },
+  });
+
+  // Price on right axis
+  priceSeries = lwChart.addLineSeries({
+    color: "#5ca8e6",
+    lineWidth: 2,
+    priceScaleId: "right",
+    title: "Price",
+  });
+  priceSeries.setData(priceData);
+
+  // Balance ratio on left axis
+  balSeries = lwChart.addAreaSeries({
+    topColor: "rgba(239,68,68,0.3)",
+    bottomColor: "rgba(239,68,68,0.02)",
+    lineColor: "#ef4444",
+    lineWidth: 1,
+    priceScaleId: "left",
+    title: "Bal %",
+  });
+  balSeries.setData(balData);
+
+  lwChart.timeScale().fitContent();
+
+  // Responsive resize
+  new ResizeObserver(function() {
+    lwChart.applyOptions({ width: container.clientWidth });
+  }).observe(container);
+}
 
 buildFilters();
 render();
