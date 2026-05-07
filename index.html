@@ -104,10 +104,10 @@
   .reader-placeholder .ph-text{font-size:0.95rem}
   .empty{text-align:center;padding:40px;color:#555}
 
-  /* Chart panel — visible only on Short Data tab */
-  .chart-panel{display:none;padding:16px;background:#0d0d18;border-bottom:1px solid #1e1e30}
-  .chart-panel.visible{display:block}
-  .chart-search-wrap{position:relative;max-width:400px;margin-bottom:12px}
+  /* Chart viewer — rendered inside the reader pane */
+  .chart-view{flex:1;display:none;flex-direction:column;padding:20px;background:#0d0d18;overflow-y:auto}
+  .chart-view.visible{display:flex}
+  .chart-search-wrap{position:relative;max-width:420px;margin-bottom:14px}
   .chart-search-wrap input{
     width:100%;padding:10px 14px;border:1px solid #2a2a36;border-radius:6px;
     font-size:0.9rem;background:#1a1a24;color:#eee;outline:none;
@@ -122,8 +122,8 @@
   .chart-ac div{padding:8px 12px;cursor:pointer;font-size:0.82rem;color:#ccc;border-bottom:1px solid #222}
   .chart-ac div:hover{background:#22222e;color:#fff}
   .chart-ac .ac-ticker{color:#ff8c00;font-weight:700;margin-right:8px}
-  .chart-title{font-size:0.82rem;color:#888;margin-bottom:8px}
-  #chartContainer{height:350px;border-radius:6px;overflow:hidden}
+  .chart-title{font-size:0.85rem;color:#aaa;margin-bottom:10px;font-weight:600}
+  #chartContainer{flex:1;min-height:400px;border-radius:6px;overflow:hidden}
 
   @media(max-width:768px){
     .layout{flex-direction:column}
@@ -149,14 +149,6 @@
     <div class="tab" data-tab="short_data">Short Data</div>
     <div class="tab" data-tab="polymarket">Polymarket</div>
   </div>
-</div>
-<div class="chart-panel" id="chartPanel">
-  <div class="chart-search-wrap">
-    <input type="text" id="tickerInput" placeholder="Search ticker or name (e.g. 005930 or Samsung)">
-    <div class="chart-ac" id="tickerAC"></div>
-  </div>
-  <div class="chart-title" id="chartTitle"></div>
-  <div id="chartContainer"></div>
 </div>
 <div class="layout">
   <div class="sidebar">
@@ -188,6 +180,14 @@
       <div class="ph-text">Select an email to read</div>
     </div>
     <iframe id="readerFrame" style="display:none" sandbox="allow-same-origin"></iframe>
+    <div class="chart-view" id="chartView">
+      <div class="chart-search-wrap">
+        <input type="text" id="tickerInput" placeholder="Ticker or name (e.g. 005930, Samsung)">
+        <div class="chart-ac" id="tickerAC"></div>
+      </div>
+      <div class="chart-title" id="chartTitle">Search a ticker to view Price + Short Balance Ratio</div>
+      <div id="chartContainer"></div>
+    </div>
   </div>
 </div>
 <script src="https://unpkg.com/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
@@ -198,6 +198,8 @@ const TAB_SLUGS={"news": ["morning", "lunch", "recap", "weekly", "monthly"], "su
 
 let searchIndex=null, activeTab="news", activeType="all", dateFrom="", dateTo="", activeFile="";
 
+let chartMode = false;
+
 function buildFilters() {
   var slugs = TAB_SLUGS[activeTab] || [];
   var html = '<button class="filter-btn active" data-filter="all">All</button>';
@@ -205,10 +207,27 @@ function buildFilters() {
     var label = DISPLAY[s] || s.replace(/_/g," ");
     html += '<button class="filter-btn" data-filter="'+s+'">'+label+'</button>';
   });
+  // Add "Charting" button only on short_data tab
+  if (activeTab === "short_data") {
+    html += '<button class="filter-btn" data-filter="__chart__">Charting</button>';
+  }
   document.getElementById("typeFilters").innerHTML = html;
 }
 
+function showChartMode() {
+  chartMode = true;
+  document.getElementById("readerFrame").style.display = "none";
+  document.getElementById("readerPlaceholder").style.display = "none";
+  document.getElementById("chartView").classList.add("visible");
+}
+
+function hideChartMode() {
+  chartMode = false;
+  document.getElementById("chartView").classList.remove("visible");
+}
+
 function openEmail(file, title) {
+  hideChartMode();
   activeFile = file;
   var frame = document.getElementById("readerFrame");
   var ph = document.getElementById("readerPlaceholder");
@@ -268,13 +287,9 @@ document.getElementById("mainTabs").addEventListener("click", function(e) {
   e.target.classList.add("active");
   activeTab = e.target.dataset.tab;
   activeType = "all";
+  hideChartMode();
   buildFilters();
   render();
-  // Show chart panel only on Short Data tab
-  document.getElementById("chartPanel").classList.toggle("visible", activeTab === "short_data");
-  // Adjust layout height when chart panel is visible
-  var lh = activeTab === "short_data" ? "calc(100vh - 110px - 430px)" : "calc(100vh - 110px)";
-  document.querySelector(".layout").style.height = lh;
 });
 
 // Sub-filter switching
@@ -282,7 +297,13 @@ document.getElementById("typeFilters").addEventListener("click", function(e) {
   if (!e.target.classList.contains("filter-btn")) return;
   document.querySelectorAll(".filter-btn").forEach(function(b) { b.classList.remove("active"); });
   e.target.classList.add("active");
-  activeType = e.target.dataset.filter;
+  var filter = e.target.dataset.filter;
+  if (filter === "__chart__") {
+    showChartMode();
+    return;
+  }
+  hideChartMode();
+  activeType = filter;
   render();
 });
 
@@ -426,7 +447,15 @@ async function loadChart(ticker, name) {
   });
   balSeries.setData(balData);
 
-  lwChart.timeScale().fitContent();
+  // Clip X-axis to the range where bal_pct data exists
+  if (balData.length >= 2) {
+    lwChart.timeScale().setVisibleRange({
+      from: balData[0].time,
+      to: balData[balData.length - 1].time,
+    });
+  } else {
+    lwChart.timeScale().fitContent();
+  }
 
   // Responsive resize
   new ResizeObserver(function() {
