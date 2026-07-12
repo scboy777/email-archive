@@ -188,24 +188,34 @@
            background:#111119;border:1px solid #1e1e30;border-radius:6px;
            font-size:0.75rem;color:#666;line-height:1.7;">
         <div style="font-weight:700;color:#f59e0b;margin-bottom:6px;font-size:0.8rem;">
-          Est. Cost Basis Methodology</div>
-        <div>Rolling weighted-average entry price of outstanding short positions.</div>
+          Short Positioning Methodology</div>
+        <div>Lot-ledger estimate of outstanding shorts' entry prices. New shorts are priced at the
+          day's <b style="color:#999;">short VWAP</b> (공매도 거래대금 ÷ 거래량), weighted by the balance change.</div>
         <div style="margin-top:6px;">
-          <b style="color:#999;">When short balance increases</b> (new shorts opened):<br>
-          &nbsp;&nbsp;avg_cost = (prev_cost &times; prev_bal + close_price &times; new_shares) / total_bal
+          <b style="color:#f59e0b;">Cost Basis band</b>: covers are removed under two assumptions —
+          <b style="color:#f59e0b;">pro-rata</b> (spread across all vintages) and
+          <b style="color:#fb7185;">LIFO</b> (newest shorts cover first). The true average entry lies
+          between the two dashed lines; a wide gap = low confidence after covering waves.
         </div>
         <div style="margin-top:4px;">
-          <b style="color:#999;">When short balance decreases</b> (shorts covered):<br>
-          &nbsp;&nbsp;avg_cost unchanged (remaining shorts keep their weighted avg)
+          <b style="color:#06b6d4;">대차잔고</b> (securities lending balance, KOFIA): borrow builds before
+          shorts go on and 상환 (returns) confirm covering during the T+2 disclosure blind window.
+          Note: borrow includes ETF/arbitrage/market-making — trends matter, not levels; June/Dec
+          rebalance and year-end dividend windows are structurally polluted.
+        </div>
+        <div style="margin-top:4px;">
+          <b style="color:#ef4444;">과열 markers</b>: KRX 공매도 과열종목 지정 (new shorting banned the
+          following session).
         </div>
         <div style="margin-top:8px;color:#888;">
-          <b>Interpretation:</b> Price above cost basis = shorts are underwater (squeeze pressure).
-          Price below cost basis = shorts are profitable (less pressure).
+          <b>Interpretation:</b> Price above the band = shorts are underwater (squeeze pressure).
+          Price below = shorts are in profit. The chart title shows the estimated share of the
+          current balance that is underwater.
         </div>
         <div style="margin-top:6px;color:#555;font-size:0.7rem;">
-          Limitations: Short balance is T+2 disclosure. Entry price approximated by closing price.
-          Balance change is net (intraday open+cover activity is not captured).
-          Initial cost basis assumes the first available closing price.
+          Limitations: balance is T+2 and reportable-positions-only (understates true shorts, most for
+          mega-caps). Opening balance is priced at the first close. Moves &gt;40% re-base the ledger
+          (corporate actions). Covered-and-reshorted churn is invisible.
         </div>
       </div>
     </div>
@@ -375,6 +385,15 @@ document.addEventListener("click",function(e){
 // ── Chart panel: ticker search + Lightweight Charts ──
 var tickerList = null;
 var lwChart = null, priceSeries = null, balSeries = null, costSeries = null;
+var costSeries2 = null, borrowSeries = null, desigMap = null;
+
+async function loadDesignations() {
+  if (desigMap) return;
+  try {
+    var res = await fetch("data/_designations.json");
+    desigMap = res.ok ? await res.json() : {};
+  } catch(e) { desigMap = {}; }
+}
 
 async function loadTickerList() {
   if (tickerList) return;
@@ -428,14 +447,21 @@ async function loadChart(ticker, name) {
 
   // Prepare series data — only show data from 2025-03-30 onwards
   var cutoff = "2025-03-30";
-  var priceData = [], balData = [], costData = [];
+  var priceData = [], balData = [], costData = [], costData2 = [], bbData = [], lastU = null;
   data.forEach(function(r) {
     var d = r.d.slice(0,4)+"-"+r.d.slice(4,6)+"-"+r.d.slice(6);
     if (d < cutoff) return;
     if (r.p !== null) priceData.push({time: d, value: r.p});
     if (r.b !== null) balData.push({time: d, value: r.b});
     if (r.c !== null && r.c !== undefined) costData.push({time: d, value: r.c});
+    if (r.c2 !== null && r.c2 !== undefined) costData2.push({time: d, value: r.c2});
+    if (r.bb !== null && r.bb !== undefined) bbData.push({time: d, value: r.bb});
+    if (r.u !== null && r.u !== undefined) lastU = r.u;
   });
+  if (lastU !== null) {
+    document.getElementById("chartTitle").textContent +=
+      "  ·  숏 손실비중(추정) " + Math.round(lastU * 100) + "%";
+  }
 
   // Create or recreate chart
   var container = document.getElementById("chartContainer");
@@ -471,15 +497,50 @@ async function loadChart(ticker, name) {
   });
   balSeries.setData(balData);
 
-  // Cost basis on right axis (same scale as price)
+  // Cost-basis band on right axis (same scale as price):
+  // pro-rata (amber) and LIFO (orange) cover assumptions — truth in between
   costSeries = lwChart.addLineSeries({
     color: "#f59e0b",
     lineWidth: 1,
     lineStyle: 2,  // dashed
     priceScaleId: "right",
-    title: "Est. Cost Basis",
+    title: "Cost Basis (pro-rata)",
   });
   costSeries.setData(costData);
+
+  costSeries2 = lwChart.addLineSeries({
+    color: "#fb7185",
+    lineWidth: 1,
+    lineStyle: 2,
+    priceScaleId: "right",
+    title: "Cost Basis (LIFO)",
+  });
+  costSeries2.setData(costData2);
+
+  // 대차잔고 (borrow balance, 억원) on left axis with the short balance
+  borrowSeries = lwChart.addLineSeries({
+    color: "#06b6d4",
+    lineWidth: 1,
+    priceScaleId: "left",
+    title: "대차잔고 (억)",
+  });
+  borrowSeries.setData(bbData);
+
+  // 과열종목 지정 markers on the price line
+  await loadDesignations();
+  var dlist = (desigMap && desigMap[ticker]) || [];
+  if (dlist.length && priceData.length) {
+    var t0 = priceData[0].time, t1 = priceData[priceData.length-1].time;
+    var markers = [];
+    dlist.forEach(function(ev) {
+      var d = ev.d.slice(0,4)+"-"+ev.d.slice(4,6)+"-"+ev.d.slice(6);
+      if (d >= t0 && d <= t1) {
+        markers.push({time: d, position: "aboveBar", color: "#ef4444",
+                      shape: "arrowDown", text: "과열"});
+      }
+    });
+    if (markers.length) priceSeries.setMarkers(markers);
+  }
 
   // Show methodology note
   document.getElementById("chartMethodology").style.display = "block";
