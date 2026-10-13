@@ -1,0 +1,894 @@
+    <html><head><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"><style type="text/css">
+  /* Prevent auto-scaling on mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  img  { max-width: 100%; height: auto; }
+  /* Ensure all tables respect container width */
+  table { max-width: 100%; }
+  /* Minimum tap target for links */
+  a { -webkit-tap-highlight-color: rgba(0,0,0,0.1); }
+
+  @media only screen and (max-width: 600px) {
+    /* ── Outer container ─────────────────────────────────────── */
+    .email-container {
+      padding: 8px !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* ── Header image ────────────────────────────────────────── */
+    .email-header-img {
+      border-radius: 6px !important;
+      max-width: 100% !important;
+    }
+
+    /* ── Title bars ──────────────────────────────────────────── */
+    .email-title {
+      font-size: 17px !important;
+      line-height: 1.3 !important;
+    }
+
+    /* ── Generic card ────────────────────────────────────────── */
+    .email-card {
+      padding: 10px 12px !important;
+      border-radius: 6px !important;
+    }
+
+    /* ── Section content blocks ──────────────────────────────── */
+    .email-section {
+      margin-top: 12px !important;
+    }
+
+    /* ── Chart image cards ───────────────────────────────────── */
+    .chart-card {
+      border-radius: 6px !important;
+    }
+    .chart-card-title {
+      padding: 8px 10px !important;
+      font-size: 13px !important;
+    }
+
+    /* ── Market summary table ────────────────────────────────── */
+    .mkt-wrap  { padding: 8px 10px !important; }
+    .mkt-tbl   { font-size: 12px !important; }
+    .mkt-asset { padding: 5px 6px !important; font-size: 12px !important; }
+    .mkt-data  { padding: 5px 5px !important; }
+    .mkt-period { display: none !important; }
+
+    /* ── Side-by-side investor flow → stacked ────────────────── */
+    .inv-flow-wrap, .fsig-wrap, .faccum-wrap {
+      display: block !important;
+    }
+    .inv-flow-buy, .inv-flow-sell,
+    .fsig-buy, .fsig-sell,
+    .faccum-buy, .faccum-sell {
+      display: block !important;
+      width: 100% !important;
+    }
+    .inv-flow-sell, .fsig-sell, .faccum-sell {
+      border-left: none !important;
+      border-top: 2px solid #e5e7eb !important;
+    }
+
+    /* ── Side-by-side stock movers / sector → stacked ────────── */
+    .stk-mv-wrap, .sect-wrap {
+      display: block !important;
+    }
+    .stk-mv-l, .stk-mv-r, .sect-l, .sect-r {
+      display: block !important;
+      width: 100% !important;
+    }
+    .stk-mv-r, .sect-r {
+      border-left: none !important;
+      border-top: 2px solid #e5e7eb !important;
+    }
+
+    /* ── Data tables (short list, polymarket, analyst) ────────── */
+    .data-table {
+      min-width: 100% !important;
+      font-size: 12px !important;
+    }
+    .data-table th {
+      padding: 6px 6px !important;
+      font-size: 10px !important;
+      white-space: nowrap !important;
+    }
+    .data-table td {
+      padding: 5px 6px !important;
+      font-size: 11px !important;
+      white-space: normal !important;
+    }
+
+    /* Hide ticker/code column on small screens for space */
+    .hide-mobile {
+      display: none !important;
+    }
+
+    /* ── Short list specific ─────────────────────────────────── */
+    .sl-section-header {
+      margin: 20px 0 8px !important;
+    }
+
+    /* ── Polymarket specific ─────────────────────────────────── */
+    .pm-odds-cell {
+      max-width: 180px !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    /* Polymarket pills — wrap on mobile */
+    .data-table td span[style*="inline-block"] {
+      font-size: 11px !important;
+      padding: 2px 5px !important;
+    }
+
+    /* ── Analyst reports ─────────────────────────────────────── */
+    .analyst-table td, .analyst-table th {
+      padding: 5px 6px !important;
+      font-size: 11px !important;
+    }
+    .analyst-table .hide-mobile-col {
+      display: none !important;
+    }
+
+    /* ── News brief ──────────────────────────────────────────── */
+    .news-container {
+      border-radius: 6px !important;
+    }
+    .news-body {
+      padding: 6px 10px 12px !important;
+    }
+    .news-headline {
+      font-size: 13px !important;
+      line-height: 1.5 !important;
+    }
+    .news-context {
+      font-size: 12px !important;
+      line-height: 1.5 !important;
+    }
+
+    /* ── Blog scrape ─────────────────────────────────────────── */
+    .blog-wrap {
+      padding: 10px 12px !important;
+    }
+
+    /* ── DART disclosures ────────────────────────────────────── */
+    .dart-wrap {
+      border-radius: 6px !important;
+    }
+
+    /* ── Error logger ────────────────────────────────────────── */
+    .error-pre {
+      font-size: 11px !important;
+      padding: 12px !important;
+      word-break: break-all !important;
+    }
+
+    /* ── Short summary (weekly/monthly) dark tables ───────────── */
+    .short-flex-wrap {
+      flex-direction: column !important;
+    }
+    .short-mini-table {
+      min-width: 100% !important;
+    }
+
+    /* ── General mobile typography ────────────────────────────── */
+    /* Ensure readable line-height for all text */
+    td, th, div, p, span {
+      line-height: 1.45 !important;
+    }
+    /* Prevent horizontal overflow from fixed-width elements */
+    div[style*="max-width"] {
+      max-width: 100% !important;
+    }
+  }
+</style>
+</head>
+    <body style="margin:0;padding:0;background:#f4f4f4;">
+    <div class="email-container" style="max-width:820px;margin:0 auto;padding:16px;box-sizing:border-box;width:100%;">
+      <img src="data:image/png;base64,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" class="email-header-img" style="width:100%;max-width:800px;border-radius:8px;height:auto;display:block;">
+      <div style="text-align:center;margin:10px 0 4px;"><a href="https://email-archive-eta.vercel.app/" target="_blank" style="display:inline-block;padding:7px 18px;font-size:12px;font-weight:600;color:#fff;background:#1a1a2e;border-radius:4px;text-decoration:none;letter-spacing:0.02em;">View on Web</a></div>
+      <div aria-hidden="true" style="height:16px;line-height:1px;font-size:1px;mso-line-height-rule:exactly;">&nbsp;</div>
+<style>
+@media only screen and (max-width:600px){
+  .mkt-wrap{padding:8px 10px!important}
+  .mkt-tbl{font-size:12px!important}
+  .mkt-asset{padding:5px 6px!important;font-size:12px!important}
+  .mkt-data{padding:5px 5px!important}
+  .mkt-period{display:none!important}
+}
+</style>
+    <div class="mkt-wrap" style="border:1px solid #e5e7eb;border-radius:8px;padding:10px 14px;
+                max-width:800px;width:100%;box-sizing:border-box;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+      <div style="font-weight:600;margin-bottom:6px;font-size:15px;color:black">Overnight Market Snapshot</div>
+      <table class="mkt-tbl" style="width:100%;border-collapse:collapse;font-size:13px;">
+        <thead>
+          <tr style="border-bottom:1px solid #e5e7eb;">
+            <th class="mkt-asset" style='text-align:left;padding:4px 10px;font-weight:500;color:black;width:100%'>Asset</th>
+            <th class="mkt-data" style='text-align:right;padding:4px 8px;font-weight:500;color:black;white-space:nowrap;'>Price</th>
+            <th class="mkt-data" style='text-align:right;padding:4px 8px;font-weight:500;color:black;white-space:nowrap;'>Change</th>
+            <th class='mkt-period' style='text-align:right;padding:4px 8px;font-weight:500;color:black;white-space:nowrap;'>WTD</th><th class='mkt-period' style='text-align:right;padding:4px 8px;font-weight:500;color:black;white-space:nowrap;'>MTD</th>
+          </tr>
+        </thead>
+        <tbody><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>S&P 500</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>7,805.45</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -0.02%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-0.08%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+2.01%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>NASDAQ 100</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>30,569.48</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -0.31%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-1.02%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+0.53%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>VIX</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>15.27</td><td style='padding:6px 8px;text-align:right;color:#16a34a;font-weight:700;white-space:nowrap;'>▲ +0.39%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+2.90%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-6.55%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>US 10Y Yield</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>5.2170%</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -2.3bps</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-2.7bps</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-7.6bps</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>Bitcoin (USD)</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>83,275.45</td><td style='padding:6px 8px;text-align:right;color:#16a34a;font-weight:700;white-space:nowrap;'>▲ +1.85%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-0.48%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-0.33%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>Gold (USD)</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>4,184.20</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -0.15%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-0.76%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-0.06%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>WTI Crude Oil</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>94.79</td><td style='padding:6px 8px;text-align:right;color:#16a34a;font-weight:700;white-space:nowrap;'>▲ +1.12%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+3.20%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#6aaa6a;white-space:nowrap;'>+4.83%</td></tr><tr><td class='mkt-asset' style='padding:6px 10px;color:black;text-align:left;width:100%'>USD/KRW</td><td class='mkt-data' style='padding:6px 8px;text-align:right;color:black;white-space:nowrap;'>1,340.13</td><td style='padding:6px 8px;text-align:right;color:#dc2626;font-weight:700;white-space:nowrap;'>▼ -0.05%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-0.06%</td><td class='mkt-period' style='padding:6px 8px;text-align:right;color:#cc7070;white-space:nowrap;'>-0.77%</td></tr></tbody>
+      </table>
+    </div>
+    
+<div aria-hidden="true" style="height:16px;line-height:1px;font-size:1px;mso-line-height-rule:exactly;">&nbsp;</div>
+<div class="news-container" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;max-width:800px;box-shadow:0 1px 3px rgba(0,0,0,0.08);"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr><td style="background:#1a1a2e;padding:10px 16px;"><span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#7c8db5;">Morning Brief</span>&nbsp;&nbsp;<span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#4a5a7a;">전일 18:00 → 06:30 KST&nbsp;·&nbsp;2026-10-14 06:33 KST</span></td></tr><tr><td class="news-body" style="background:#fff;padding:6px 16px 14px 16px;"><table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* US MARKET OVERNIGHT</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Dow falls 0.4% as bank earnings mix with soaring mortgage rates and memory-chip selloff</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (wsj)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">Major indexes closed mixed-to-lower: the <b>S&P 500</b> was little changed, the <b>Nasdaq</b> fell <b>0.2%</b>, and the <b>Dow</b> dropped <b>0.4%</b>. Bank earnings season kicked off with strong headline numbers—<b>JPMorgan Chase</b>, <b>Goldman Sachs</b>, <b>Citigroup</b>, and <b>Wells Fargo</b> all posted higher revenue and profit, fueled by a <b>39%</b> average jump in equities-trading revenue—but a higher-yield environment crimped bond and currency trading, and investment-banking fees slipped from Q2. <b>Goldman</b> erased early gains to close down <b>0.2%</b>, while <b>Citigroup</b> tumbled <b>5.6%</b> and the other two banks also fell, showing investors are parsing the details beneath the strong headlines. Memory stocks sold off after <b>CXMT</b>'s president touted rapid progress on cutting-edge chips that could challenge Western and Korean rivals, sending <b>Micron Technology</b> down <b>3.6%</b> and <b>SK Hynix</b> U.S.-listed shares down <b>3.2%</b>. In housing, existing-home sales rose in September for the first time since May, but the gain reflected contracts signed in July-August when mortgage rates sat in the mid-<b>6%</b> range; rates have since climbed to <b>7.4%</b>, a near three-year high, clouding the outlook. Rising benchmark yields are the common thread pressuring bank trading desks, mortgage affordability, and risk sentiment broadly. Investors will watch for more bank earnings, housing data, and yield moves as rate expectations continue to shift.</span>
+          
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">S&P500 -0.02%, Dow -0.35%, Nasdaq -0.15% in mixed close as chips offset bank earnings</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">S&P500 7,805.45(-0.02%), 다우 51,670.10(-0.35%), 나스닥 27,204.38(-0.15%), 러셀2000 -0.40% 마감. 반도체 6거래일 연속 약세가 지수 상단을 눌렀고 금융주 실적 호조가 하단을 방어했다. VIX 15.27로 소폭 상승, 미 10년물 금리는 5.22%(-0.44%)로 하락.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66138" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">코스피 야간선물 1.7~2% 반등 마감, 전일 -5.46% 급락 이후 되돌림 시도</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">전일 코스피는 외국인 5조원 순매도 속 6,035.35(-5.46%)로 급락했으나 야간선물은 장중 2% 가까이 반등했다. 연준 인사 발언 해석과 CXMT 공포 과장 논란이 반등 배경으로 거론된다. 개장 후 삼성전자·SK하이닉스 외국인 수급 전환 여부가 반등 지속성의 관건.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66165" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Nikkei falls 1.82% as AI capex skepticism and CXMT fears hit Japan tech too</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (세상의 부족한 것들 (이데일리))</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">AI 자본지출 자금조달 비용 회수 가능성에 대한 의구심과 메모리 공급과잉·가격경쟁 우려가 일본 기술주를 동반 압박했다. 마이크론 -3.88% 등 미 반도체 약세와 맞물려 일본·대만 칩주도 하락, 이번 매도세가 한국 고유 리스크가 아닌 역내 전반의 리스크오프임을 시사한다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://n.news.naver.com/mnews/article/018/0006387385?sid=101" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;n.news.naver.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* SEMIS & AI</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Chip stocks fall for 6th straight session; Micron -3.9% on China memory competition fears</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더 / MarketWatch)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">CXMT의 첨단 메모리 양산 선언 여파로 마이크론이 약 3.9% 하락하며 반도체 섹터가 16개월래 최악의 구간에 진입했다. Bloomberg·FT는 AI 트레이드 전반의 균열로 진단하며 브로드컴 CEO의 '카지노' 발언 이후 투심 악화를 지목. SK하이닉스·삼성전자 ADR과 국내 메모리 밸류체인 전반이 직접 영향권.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.marketwatch.com/story/ai-fatigue-is-gripping-the-market-and-driving-chip-stocks-toward-their-worst-stretch-in-16-months-6dc78ece?mod=mw_rss_topstories" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;marketwatch.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">CXMT 공포 과장 논란 확산, 월가 애널리스트 "DDR5일 뿐 HBM 아냐" 반박</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (시황맨의 주식이야기)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">제품 발표와 대규모 양산은 다른 문제이며 CXMT는 수율·가격·신뢰성·생산량을 아직 입증하지 못했다는 반박이 제기됐다. 현재 메모리는 극심한 공급 부족 상태이고 CXMT 기술은 HBM이 아닌 DDR5에 그쳐 즉각적 공급과잉 우려는 과도하다는 시각. 전일 급락에 대한 반발 매수 명분으로 작용할 수 있다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/shmstory/9084" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">China's YMTC files for Shanghai IPO, world's No.3 NAND maker by shipments</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">YMTC가 상하이증권거래소 상장 신청서를 제출, R&D 자금 조달과 NAND 증설이 목적이다. 7월 IPO로 중국 시총 1위에 오른 CXMT 전례를 재현하려는 시도로, 카운터포인트 기준 YMTC는 매출·출하량 글로벌 3위. 삼성전자·SK하이닉스 낸드 경쟁 구도와 '중국 메모리 굴기' 서사를 강화하는 재료.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66152" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Anthropic investor day tonight: whisper number $100B run-rate, $2tn valuation chatter</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (TNBfolio)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">앤트로픽이 샌프란시스코에서 첫 기관투자자의 날을 열고 미공개 3분기 실적을 공개하며, 연말 매출 런레이트 위스퍼 넘버는 1,000억 달러다. 이를 충족하면 기업가치 2조 달러, 사상 최대 IPO 가능성이 거론된다. 경쟁사 오픈AI는 런레이트 700억 달러·기업가치 1.4조 달러로 300억 달러 조달 중이어서 AI 밸류에이션 벤치마크로 작용.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/TNBfolio/71528" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Fermi-AMD sign 222MW credit support deal for Texas AI infra; FRMI +21% premarket</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">페르미가 AMD와 신용지원 계약 및 전략적 파트너십을 체결, 1단계 '프로젝트 마타도르'에서 222MW 전력 용량 임대를 뒷받침하고 2~3단계에서 최대 650MW 추가 확장이 가능하다. FRMI는 프리마켓 +21.03% 급등. AI 전력 인프라 테마가 재부각되며 국내 전력기기·변압기주 투심에 긍정적.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66126" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Zuckerberg says Meta ready to commit up to $200B for AI; Truist lifts PT to $1,000</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">저커버그가 장기 AI 주도권 확보를 위해 최대 2,000억 달러 투자도 감수할 준비가 됐다고 언급했다. 트루이스트는 신규 모델 Muse 기여를 반영해 META 목표주가를 763달러→1,000달러로 상향. 메가캡 AI capex 지속 신호로 국내 서버·전력·부품 공급망에 긍정적이나, 자금조달 부담은 금리 상승 요인이기도 하다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66123" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Navitas +2.81% on NVIDIA 24kW AI power board tie-up; EFXT +7.97% on 1GW+ data center deal</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">NVTS가 엔비디아와 24kW AI 전력 보드 공동 개발 협력으로 프리마켓 상승, EFXT는 1GW 이상 데이터센터 전력 프로젝트 수주로 +7.97% 급등했다. AI 전력 인프라 개별 호재가 연이어 부각되며 전력관리 반도체·전력기기 공급망 전반에 온기. 국내 관련주 동반 반응 여부 주목.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66132" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* MACRO & FX</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">美 9월 CPI 오늘 밤 21:30(KST) 발표, 주중 최대 이벤트</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">9월 헤드라인·근원 CPI가 동시 발표되며 연준 금리 경로 판단의 분수령이 된다. 예상 상회 시 추가 인상 기대 강화, 하회 시 완화 기대 확대로 국채금리·달러·위험자산 변동성이 확대될 수 있다. 같은 시각 ASML 실적도 예정돼 반도체 투심의 추가 촉매로 작용한다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66149" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">연준 월러 "금리 상승은 AI투자 반영", 윌리엄스 "연내 1회 인상 적절·2027년 불필요"</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더 / CNBC)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">월러 이사는 금리 상승이 인플레이션보다 성장·AI 투자 확대를 반영하며 국채 안전자산 프리미엄 소멸로 50~70bp 추가 상승 압력이 발생했을 수 있다고 진단했다. 뉴욕 연은 윌리엄스는 연내 1회 추가 인상은 적절하나 2027년엔 불필요하다고 평가, 보스턴 콜린스·리치먼드 바킨은 에너지가·데이터센터발 물가압력을 들어 더 매파적이었다. AI발 고금리 장기화는 성장주·반도체 멀티플에 지속 부담.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.cnbc.com/2026/10/13/john-williams-fed-rate-hikes-2027.html" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;cnbc.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">달러/원 1,341원, 금 $4,183.40(-0.17%), 비트코인 $83,153(+0.20%)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">원화는 1,341원 수준에서 약세 기조를 이어가며 외국인 수급에 부담 요인으로 남아 있다. 금은 국채금리 상승 속 실질금리 부담으로 소폭 하락, 비트코인은 소폭 상승해 뚜렷한 리스크 방향성은 부재. 수출주에는 환율 우호적이나 외국인 자금 이탈 트리거로도 작동 중.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66138" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">IMF, AI 밸류에이션 조정·전쟁·부채를 글로벌 3대 리스크로 지목</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (Reuters)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">IMF 글로벌금융안정보고서는 시장의 '안일함'을 경고하며 AI발 매도세와 국채금리 급등을 핵심 위험으로 제시했다. 아시아 10개국 기업부채의 21.4%가 이자도 못 갚는 좀비기업에 묶여 있어 2008년(10%) 대비 2배 이상 확대됐다고 분석. 고금리 민감 섹터와 신용시장 전반에 경계감 요인.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://news.google.com/rss/articles/CBMiswFBVV95cUxOTXc4YzNuVFU1U2dtSjE1SG9xRUIxZTRtMU1xdXNodDkxMTRGaE9yQTJIVVVoeVJjdnFsbi0yeUJ6a09ZbGJ0Z3N5V1NiV1RGZlVDekptcUVqcTVtNGRsdDNpZkd1akEyN2hybUx5aFlXM05pZENOVFdfTXI3XzBxaGRMZ0NVcFFRVXZRbHlZYUNleHhiTTJ1UTN0dXJ6U0h2V3ZoWGdqOWp5SmdCMjFab1doZw?oc=5" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;news.google.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* US BANK EARNINGS</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Goldman Sachs Q3 equities trading revenue surges 72% to $6.44B, EPS $17.01 vs $13.02 est.</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (TNBfolio)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">총 순매출은 23% 증가한 186.8억 달러로 역대 두 번째 규모, EPS는 예상을 크게 상회했다. 연준 금리 인상·유가 급등·반도체 매도세가 만든 변동성이 트레이딩 플로우를 밀어올렸으며 FICC 34.7억 달러는 예상(37.2억)을 하회. 프리마켓에서 GS는 +4.62% 상승하며 지수를 방어했다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/TNBfolio/71526" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">JPMorgan fixed-income trading revenue falls 4% YoY, first decline in 2+ years</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (TNBfolio)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">총 매출 509억 달러, 조정 EPS 5.75달러로 시장 예상을 하회했고 트레이딩 매출 103억 달러도 예상 105억 달러를 밑돌았다. 10년물 금리가 24년래 고점에 근접하며 채권 트레이딩 수요가 위축된 반면 주식 트레이딩은 49% 급증한 49.5억 달러로 3분기 기준 사상 최대. 비용 273억 달러가 예상을 상회해 주가는 +0.10%에 그쳤다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/TNBfolio/71523" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Citigroup FICC revenue $4.39B, best Q3 in at least a decade, yet stock -1.47%</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (TNBfolio)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">총 매출은 약 8% 증가한 238.5억 달러, EPS 2.85달러로 예상 2.65달러를 크게 상회했다. 크레딧 파이낸싱 데스크가 FICC 호조를 주도했으나 금리 트레이딩은 감소했고 주식 매출 17억 달러는 예상을 소폭 하회. 어닝 서프라이즈에도 주가가 밀리며 은행주 내 차별화 장세를 시사했다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/TNBfolio/71525" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">UnitedHealth beats and raises 2026 adj. EPS guidance to at least $20.50; stock +3.23%</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (CNBC / 미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">기존 가이던스 19.50~20.00달러에서 최소 20.50달러로 상향하며 프리마켓 강세를 주도했다. 반면 웰스파고는 매출 219억 달러로 예상을 하회(주가 -1.28%), J&J도 -1.62%로 섹터 내 실적별 반응이 엇갈렸다. 헬스케어·금융 전반에서 종목 선별 장세가 전개되는 모습.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.cnbc.com/2026/10/13/unitedhealth-group-unh-earnings-q3-2026.html" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;cnbc.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* ENERGY & COMMODITIES</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">WTI 11월물 $94.78(+1.11%), 호르무즈 해협서 유조선·컨테이너선 피격</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (UKMTO / 미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">영국 해상무역기구(UKMTO)는 10월 13일 호르무즈 해협에서 유조선과 컨테이너선이 각각 정체불명 발사체에 피격됐다고 확인했으며, 최근 2주간 24척이 공격 대상이 됐다. 사우디 연합군사령부는 후티 통제 사바 석유시설 인근 대피 경고를 발령해 보복 공습 임박 가능성을 시사. 유가 리스크 프리미엄 확대는 정유 마진에 호재, 항공·해운·수입물가에는 부담.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.ft.com/content/a4ab83d4-81b5-4336-9569-a0708b41e894?syn-25a6b1a6=1" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;ft.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">BP Q3 refining margin triples YoY to $46.7/bbl on Iran-war supply disruption</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (TNBfolio)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">정제마진이 전년 15.8달러, 전분기 29.6달러에서 46.7달러로 급등하며 제품 부문 이익은 전분기 대비 19~21억 달러 증가할 전망이다. 순부채는 135~144억 달러로 목표(140~180억)를 1년 앞당겨 달성 예정이나 가스·저탄소 부문에서 30~45억 달러 손상차손이 예상된다. 글로벌 정유 마진 급등은 국내 정유주(S-Oil, SK이노베이션 등) 실적 기대에 직결.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/TNBfolio/71527" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">에너지주 52주 신고가 속출: Shell·Chevron·Valero·Phillips 66·Marathon</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">시총 10억 달러 이상 기업 중 BP, 셰브론, 쉘, 발레로, 필립스66, 마라톤페트롤리엄 등 다수 에너지주가 52주 신고가를 경신했다. 유가 상승과 중동 지정학 리스크가 정유·탐사 업종 전반에 강세 모멘텀을 제공 중. 국내 정유·조선(탱커 발주)·방산 관련주의 유가 민감도 점검 필요.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66145" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Trump may cut Ukraine intel sharing, pressure Musk to restrict Starlink access</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">Politico에 따르면 트럼프가 우크라이나 정보 공유 중단과 스타링크 접근 제한을 머스크에 압박할 가능성이 제기됐으며, 러시아·미국 간 디젤 공급 합의도 보도됐다. 우크라이나 전황과 유럽 안보 구도 변화는 방산·에너지 관련주의 변동성 요인. 국내 방산주에는 양방향 리스크로 작용할 수 있다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66160" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* KOREA OPEN WATCH</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">이재용 회장, 장외매수로 삼성전자 766만주(약 1.9조원) 추가 매입 공시</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (여의도스토리 (연합인포맥스))</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">공시에 따르면 거래개시일 기준 직전 6개월간 장외매수로 보통주 766만7,100주를 사들였고 결제일은 10월 12일이다. 전날 홍라희 관장의 2.6조원(1,115만주, 0.17%p) 증여에 이은 추가 지분 확대로 이 회장 지분율은 1.75% 수준으로 상승했다. 오너 일가의 공격적 매집은 주가 밸류에이션 바닥 인식과 지배구조 안정화 시그널로 해석될 수 있다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://news.einfomax.co.kr/news/articleView.html?idxno=4439039" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;news.einfomax.co.kr</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">증권가 "급락했다고 덥석 사면 안 돼"…반도체 대형주 반발 매수 경계령</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (세상의 부족한 것들 (파이낸셜뉴스))</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">중국발 공급 과잉 우려와 실적 피크아웃 의구심이 완전히 해소되지 않았다며 섣부른 저가 매수에 경계 의견이 제기됐다. 반도체 투톱의 시총 비중이 압도적이어서 코스피 전체 변동성을 좌우하는 구조. 개장 후 외국인 수급 전환과 CXMT 리스크 재평가가 핵심 변수다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://n.news.naver.com/mnews/article/014/0005588749?sid=101" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;n.news.naver.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">SK하이닉스 144만원까지 급락, 그러나 증권가 목표가는 여전히 300~400만원대</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (세상의 부족한 것들 (경북매일))</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">AI 워크로드 복잡화로 HBM·모바일 D램 공급 부족이 지속된다는 논리로 하나증권·SK증권 등은 내년 실적 대폭 상향과 함께 고가 목표주가를 유지 중이다. 현재가와 컨센서스 목표가 간 괴리가 역대급으로 벌어진 상태로, 밸류에이션 논쟁이 격화되고 있다. 200일선 이탈 이후 기술적 지지선 확인이 단기 관전 포인트.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.kbmaeil.com/article/20261013500792" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;kbmaeil.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">삼성 스마트폰 출하 3% 감소에 그쳐 점유율 23%…글로벌 시장은 20% 급감</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (세상의 부족한 것들 (위키트리))</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">메모리 가격 급등과 공급 부족으로 글로벌 스마트폰 출하가 14년래 최저로 위축된 가운데 삼성은 폴드8 효과로 선방하며 1위를 지켰다. 메모리 주도 주가 약세 속 디바이스(MX) 부문의 상대적 체력은 긍정적 요소. 다만 부품 원가 상승이 내년 수익성에 부담으로 작용할 수 있다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://www.wikitree.co.kr/articles/1165981" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;wikitree.co.kr</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">삼성·SK, HBM4 양산·HBM4E 샘플 출하로 중·미 추격 속 기술 격차 유지 시도</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (세상의 부족한 것들 (데일리안))</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">삼성전자는 2월 HBM4 양산 출하에 이어 5월 HBM4E 샘플을 고객사에 공급했으며 양사 모두 차세대 AI 메모리에 총력 중이다. CXMT·YMTC의 추격 서사에 맞설 유일한 방어 논리가 기술 리더십인 만큼 HBM4 공급 계약 뉴스플로우가 주가 반등의 핵심 변수다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://n.news.naver.com/mnews/article/119/0003142430?sid=101" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;n.news.naver.com</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:14px 0 5px 0;">
+    <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                 font-size:11px;font-weight:700;letter-spacing:0.08em;
+                 text-transform:uppercase;color:#1a1a2e;
+                 border-bottom:2px solid #1a1a2e;padding-bottom:2px;">* Wall Street Views</span>
+  </td>
+</tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">Macquarie: 9월 CPI가 가속해도 연준 10월 금리 인상 가능성은 낮다</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">맥쿼리 글로벌 외환·금리 전략팀은 인플레이션 지표보다 성장·고용 데이터가 연준 판단에 더 큰 영향을 줄 것으로 봤다. 시장의 과도한 추가 긴축 우려를 완화하는 코멘트로, 국채금리와 위험자산 변동성의 완충 요인이 될 수 있다. CPI 발표 직전 포지셔닝 판단에 참고 지표.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66122" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr>
+<tr>
+  <td style="padding:2px 0 2px 0;vertical-align:top;">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="14" valign="top" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+            font-size:13px;color:#555;padding-top:3px;line-height:1.55;">&#8211;</td>
+        <td style="padding-left:4px;">
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:13px;font-weight:600;color:#1a1a2e;line-height:1.55;">BofA 펀드매니저 서베이: 경기소비재 순비중축소 -35%로 2008년 7월 이후 최대</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;
+                       font-size:11px;color:#aaa;"> (미국주식 인사이더)</span>
+          <span style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:12px;color:#555;line-height:1.6;display:block;margin-top:3px;">10월 글로벌 펀드매니저 설문에서 경기소비재 순비중이 약 -35%를 기록, 장기 평균과 1표준편차 하단을 모두 하회하는 극단적 비관을 나타냈다. 유통·여행·자동차 등 소비 관련주에 대한 글로벌 자금 이탈 지속 가능성을 시사. 역발상 관점에서는 과매도 신호로도 해석 가능하다.</span>
+          <span style="display:block;margin-top:3px;"><a href="https://t.me/insidertracking/66125" target="_blank" style="font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;font-size:11px;color:#3b5bdb;text-decoration:none;white-space:nowrap;">&#x2197;&nbsp;Telegram →</a></span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr><td style="height:8px;"></td></tr></table></td></tr></table></div>
+<div aria-hidden="true" style="height:16px;line-height:1px;font-size:1px;mso-line-height-rule:exactly;">&nbsp;</div>
+
+    <div class="blog-wrap" style="border:1px solid #e5e7eb;border-radius:8px;padding:14px 18px;max-width:800px;
+                width:100%;box-sizing:border-box;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                background:#ffffff;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+      <div style="font-weight:700;font-size:15px;color:#111;margin-bottom:14px">
+        Blog Summaries
+      </div>
+      
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            메르의 블로그 &nbsp;·&nbsp; 2026-10-14 00:10
+          </div>
+          <a href='https://blog.naver.com/ranto28/224439764329?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            금값이 왜 비실비실 할까? 변수는?
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • 국제금값은 2026년 1월말 고점 이후 하락 중이며, 공급은 금광생산 증가와 재활용 감소가 상쇄되어 전년과 비슷한 수준으로 하락 원인이 아님.<br>• 투자수요(골드바, 코인, ETF)는 급감했지만 중앙은행 매입이 이를 상쇄해 2분기 총 실물수요는 전년과 동일한 수준을 유지함.<br>• 실물수요보다 수십배 큰 선물시장에서 헤지펀드 등 레버리지 거래자들이 순매수 포지션을 줄이고 있으며, 이는 실질금리(물가연동국채 기준)가 역대 최고치에 근접할 만큼 상승한 영향임.
+          </div>
+        </div>
+        <div style='margin-bottom:20px;border-left:3px solid #4a90d9;padding-left:14px'>
+          <div style='color:#9ca3af;font-size:11px;font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            워렌넝구의 주식투자 &nbsp;·&nbsp; 2026-10-13 22:27
+          </div>
+          <a href='https://blog.naver.com/khiro38/224440738042?fromRss=true&trackingCode=rss' target='_blank'
+             style='display:block;margin:4px 0;font-weight:600;color:#1a73e8;
+                    text-decoration:none;font-size:13px;
+                    font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            재용이형 삼성전자 지분 2.6조 증여 받음
+          </a>
+          <div style='color:#444;font-size:12px;line-height:1.7;margin-top:4px;
+                      font-family:-apple-system,Helvetica Neue,Arial,sans-serif'>
+            • 홍라희 명예관장이 이재용 회장에게 약 2.6조원(1,116만여주)의 삼성전자 지분을 증여하기로 공시했으며, 주가가 저점인 시기에 이루어졌다는 점이 주목됨.<br>• 삼성전자의 향후 실적 개선과 주주환원 확대(FCF 50% 이상 가능성) 가능성을 고려하면 증여세 마련에 유리한 시점으로 평가됨.<br>• 글쓴이는 주가 하락을 기회로 보고 보유 종목을 추가 매수했으며, 총주주수익률(TSR) 상승에 따른 주가 하방 경직성을 근거로 추가 매수 의지를 밝힘.
+          </div>
+        </div>
+    </div>
+    </div>
+    </body></html>
+    
